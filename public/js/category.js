@@ -4,6 +4,8 @@ const categoryForm = document.getElementById("categoryForm");
 const categoryName = document.getElementById("categoryName");
 const categoryTable = document.getElementById("categoryTable");
 
+let editingId = null;
+
 function createRow(category) {
     return `
         <tr>
@@ -59,9 +61,17 @@ async function addCategory(event) {
 
     try {
 
-        const response = await fetch(API_URL, {
+        const url = editingId
+            ? `${API_URL}/${editingId}`
+            : API_URL;
 
-            method: "POST",
+        const method = editingId
+            ? "PUT"
+            : "POST";
+
+        const response = await fetch(url, {
+
+            method,
 
             headers: {
                 "Content-Type": "application/json"
@@ -78,6 +88,11 @@ async function addCategory(event) {
         }
 
         categoryForm.reset();
+
+        editingId = null;
+
+        categoryForm.querySelector("button").textContent =
+            "Tambah";
 
         await loadCategories();
 
@@ -125,13 +140,44 @@ async function deleteCategory(id) {
 
 }
 
+async function editCategory(id) {
+
+    try {
+
+        const response = await fetch(`${API_URL}/${id}`);
+
+        const category = await response.json();
+
+        categoryName.value = category.name;
+
+        editingId = id;
+
+        categoryForm.querySelector("button").textContent =
+            "Update";
+
+        categoryName.focus();
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
 function handleTableClick(event) {
 
     const button = event.target;
 
-    if (button.classList.contains("btn-delete")) {
+    const id = button.dataset.id;
 
-        const id = button.dataset.id;
+    if (button.classList.contains("btn-edit")) {
+
+        editCategory(id);
+
+    }
+
+    if (button.classList.contains("btn-delete")) {
 
         deleteCategory(id);
 
