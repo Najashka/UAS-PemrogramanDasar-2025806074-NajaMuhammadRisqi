@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Category Management</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/table.css">
+
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h2>Sales Inventory</h2>
+
+            <ul>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/categories" class="active">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/suppliers">Suppliers</a></li>
+                <li><a href="/customers">Customers</a></li>
+                <li><a href="/sales">Sales</a></li>
+            </ul>
+
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+
+            <div class="page-header">
+                <h1>Category Management</h1>
+                <p>Kelola semua kategori produk.</p>
+            </div>
+
+            <div class="card">
+
+                <form id="categoryForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Nama Category</label>
+
+                            <input
+                                type="text"
+                                id="categoryName"
+                                placeholder="Masukkan nama category">
+
+                        </div>
+
+                        <button type="submit">
+                            Tambah
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Daftar Category</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama Category</th>
+                            <th width="180">Aksi</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="categoryTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/js/category.js"></script>
+
+</body>
