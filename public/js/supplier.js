@@ -88,6 +88,58 @@ function renderTable(suppliers) {
 
 }
 
+// ===============================
+// Create Supplier
+// ===============================
+
+async function addSupplier(event) {
+
+    event.preventDefault();
+
+    const supplier = {
+
+        name: supplierName.value.trim(),
+        phone: supplierPhone.value.trim(),
+        address: supplierAddress.value.trim()
+
+    };
+
+    try {
+
+        const response = await fetch(API_URL, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(supplier)
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("Gagal menambahkan supplier");
+
+        }
+
+        supplierForm.reset();
+
+        loadSuppliers();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+}
+
 let editingId = null;
 
 loadSuppliers();
+
+supplierForm.addEventListener("submit", addSupplier);
