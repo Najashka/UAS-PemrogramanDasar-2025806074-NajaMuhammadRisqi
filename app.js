@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Routes API
 // ===============================
 app.use("/api/categories", categoryRoutes);
+
+
+app.use("/api/products", productRoutes);
 
 // ===============================
 // Halaman Utama
