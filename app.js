@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import supplierRoutes from "./routes/supplierRoutes.js";
 
 dotenv.config();
 
@@ -35,6 +36,8 @@ app.use("/api/categories", categoryRoutes);
 
 app.use("/api/products", productRoutes);
 
+app.use("/api/suppliers", supplierRoutes);
+
 // ===============================
 // Halaman Utama
 // ===============================
@@ -54,6 +57,13 @@ app.get("/categories", (req, res) => {
 // ===============================
 app.get("/products", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "products.html"));
+});
+
+// ===============================
+// Halaman Suppliers
+// ===============================
+app.get("/suppliers", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "suppliers.html"));
 });
 
 // ===============================
