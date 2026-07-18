@@ -183,6 +183,48 @@ async function editSupplier(id) {
 }
 
 // ===============================
+// Delete Supplier
+// ===============================
+
+async function deleteSupplier(id) {
+
+    const confirmDelete = confirm(
+        "Yakin ingin menghapus supplier ini?"
+    );
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(`${API_URL}/${id}`, {
+
+            method: "DELETE"
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("Gagal menghapus supplier");
+
+        }
+
+        loadSuppliers();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+// ===============================
 // Handle Table Click
 // ===============================
 
@@ -195,6 +237,12 @@ function handleTableClick(event) {
     if (button.classList.contains("btn-edit")) {
 
         editSupplier(id);
+
+    }
+
+    if (button.classList.contains("btn-delete")) {
+
+        deleteSupplier(id);
 
     }
 
