@@ -50,6 +50,13 @@ app.get("/categories", (req, res) => {
 });
 
 // ===============================
+// Halaman Products
+// ===============================
+app.get("/products", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "products.html"));
+});
+
+// ===============================
 // Database Connection Test
 // ===============================
 const PORT = process.env.PORT || 3000;

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/table.css">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h2>Sales Inventory</h2>
+
+            <ul>
+
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/products" class="active">Products</a></li>
+                <li><a href="/suppliers">Suppliers</a></li>
+                <li><a href="/customers">Customers</a></li>
+                <li><a href="/sales">Sales</a></li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+
+            <div class="page-header">
+
+                <h1>Product Management</h1>
+
+                <p>Kelola semua data produk.</p>
+
+            </div>
+
+            <!-- Form -->
+            <div class="card">
+
+                <form id="productForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Nama Product</label>
+
+                            <input
+                                type="text"
+                                id="productName"
+                                placeholder="Masukkan nama product">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Category</label>
+
+                            <select id="categorySelect">
+
+                                <option value="">
+                                    Pilih Category
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Supplier</label>
+
+                            <select id="supplierSelect">
+
+                                <option value="">
+                                    Pilih Supplier
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Harga</label>
+
+                            <input
+                                type="number"
+                                id="productPrice"
+                                placeholder="Harga">
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Stock</label>
+
+                            <input
+                                type="number"
+                                id="productStock"
+                                placeholder="Stock">
+
+                        </div>
+
+                        <button type="submit">
+
+                            Tambah
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+
+                <h2>Daftar Product</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
+                            <th>Harga</th>
+                            <th>Stock</th>
+                            <th width="180">Aksi</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="productTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/js/product.js"></script>
+
+</body>
+
+</html>
