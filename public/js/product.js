@@ -94,7 +94,39 @@ async function loadSuppliers() {
 
 }
 
+async function loadProducts() {
+    try {
+        const response = await fetch(PRODUCT_API);
+        const products = await response.json();
+
+        productTable.innerHTML = "";
+
+        products.forEach((product, index) => {
+
+            productTable.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.supplier}</td>
+                    <td>Rp ${Number(product.price).toLocaleString()}</td>
+                    <td>${product.stock}</td>
+                    <td>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            `;
+
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 let editingId = null;
 
 loadCategories();
 loadSuppliers();
+loadProducts();
