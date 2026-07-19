@@ -14,8 +14,8 @@ const SUPPLIER_API = "/api/suppliers";
 const productForm = document.getElementById("productForm");
 
 const productName = document.getElementById("productName");
-const categorySelect = document.getElementById("categorySelect");
-const supplierSelect = document.getElementById("supplierSelect");
+const productCategory = document.getElementById("productCategory");
+const productSupplier = document.getElementById("productSupplier");
 const productPrice = document.getElementById("productPrice");
 const productStock = document.getElementById("productStock");
 
@@ -39,12 +39,12 @@ async function loadCategories() {
 
         const categories = await response.json();
 
-        categorySelect.innerHTML =
+        productCategory.innerHTML =
             `<option value="">Pilih Category</option>`;
 
         categories.forEach(category => {
 
-            categorySelect.innerHTML += `
+            productCategory.innerHTML += `
                 <option value="${category.id}">
                     ${category.name}
                 </option>
@@ -72,13 +72,12 @@ async function loadSuppliers() {
 
         const suppliers = await response.json();
 
-        supplierSelect.innerHTML = `
-            <option value="">Pilih Supplier</option>
-        `;
+        productSupplier.innerHTML =
+            `<option value="">Pilih Supplier</option>`;
 
         suppliers.forEach(supplier => {
 
-            supplierSelect.innerHTML += `
+            productSupplier.innerHTML += `
                 <option value="${supplier.id}">
                     ${supplier.name}
                 </option>
@@ -94,9 +93,16 @@ async function loadSuppliers() {
 
 }
 
+// ===============================
+// Load Products
+// ===============================
+
 async function loadProducts() {
+
     try {
+
         const response = await fetch(PRODUCT_API);
+
         const products = await response.json();
 
         productTable.innerHTML = "";
@@ -109,11 +115,11 @@ async function loadProducts() {
                     <td>${product.name}</td>
                     <td>${product.category}</td>
                     <td>${product.supplier}</td>
-                    <td>Rp ${Number(product.price).toLocaleString()}</td>
+                    <td>Rp ${Number(product.price).toLocaleString("id-ID")}</td>
                     <td>${product.stock}</td>
                     <td>
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <button onclick="editProduct(${product.id})">Edit</button>
+                        <button onclick="deleteProduct(${product.id})">Delete</button>
                     </td>
                 </tr>
             `;
@@ -121,11 +127,80 @@ async function loadProducts() {
         });
 
     } catch (error) {
+
         console.error(error);
+
     }
+
+}
+
+// ===============================
+// Create Product
+// ===============================
+
+async function saveProduct(e) {
+
+    e.preventDefault();
+
+    const product = {
+        category_id: productCategory.value,
+        supplier_id: productSupplier.value,
+        name: productName.value.trim(),
+        price: productPrice.value,
+        stock: productStock.value
+    };
+
+    // Validasi sederhana
+    if (
+        !product.category_id ||
+        !product.supplier_id ||
+        !product.name ||
+        !product.price ||
+        !product.stock
+    ) {
+        alert("Semua field wajib diisi!");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(PRODUCT_API, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(product)
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message);
+        }
+
+        alert(result.message);
+
+        productForm.reset();
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
 }
 
 let editingId = null;
+
+productForm.addEventListener("submit", saveProduct);
 
 loadCategories();
 loadSuppliers();
