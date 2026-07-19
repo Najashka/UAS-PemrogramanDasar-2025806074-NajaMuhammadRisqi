@@ -24,6 +24,21 @@ const ProductModel = {
 
     },
 
+    async getById(id) {
+
+        const [rows] = await db.query(
+            `
+            SELECT *
+            FROM products
+            WHERE id = ?
+            `,
+            [id]
+        );
+
+        return rows[0];
+
+    },
+
     async create(data) {
 
         const [result] = await db.query(
@@ -45,6 +60,47 @@ const ProductModel = {
                 data.price,
                 data.stock
             ]
+        );
+
+        return result;
+
+    },
+
+    async update(id, data) {
+
+        const [result] = await db.query(
+            `
+            UPDATE products
+            SET
+                category_id = ?,
+                supplier_id = ?,
+                name = ?,
+                price = ?,
+                stock = ?
+            WHERE id = ?
+            `,
+            [
+                data.category_id,
+                data.supplier_id,
+                data.name,
+                data.price,
+                data.stock,
+                id
+            ]
+        );
+
+        return result;
+
+    },
+
+    async delete(id) {
+
+        const [result] = await db.query(
+            `
+            DELETE FROM products
+            WHERE id = ?
+            `,
+            [id]
         );
 
         return result;
