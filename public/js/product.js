@@ -13,6 +13,8 @@ const SUPPLIER_API = "/api/suppliers";
 
 const productForm = document.getElementById("productForm");
 
+const submitButton = productForm.querySelector("button[type='submit']");
+
 const productName = document.getElementById("productName");
 const productCategory = document.getElementById("productCategory");
 const productSupplier = document.getElementById("productSupplier");
@@ -135,7 +137,7 @@ async function loadProducts() {
 }
 
 // ===============================
-// Create Product
+// Save Product
 // ===============================
 
 async function saveProduct(e) {
@@ -164,9 +166,17 @@ async function saveProduct(e) {
 
     try {
 
-        const response = await fetch(PRODUCT_API, {
+        const url = editingId
+            ? `${PRODUCT_API}/${editingId}`
+            : PRODUCT_API;
 
-            method: "POST",
+        const method = editingId
+            ? "PUT"
+            : "POST";
+
+        const response = await fetch(url, {
+
+            method,
 
             headers: {
                 "Content-Type": "application/json"
@@ -186,6 +196,10 @@ async function saveProduct(e) {
 
         productForm.reset();
 
+        editingId = null;
+
+        submitButton.textContent = "Tambah";
+
         loadProducts();
 
     } catch (error) {
@@ -193,6 +207,65 @@ async function saveProduct(e) {
         console.error(error);
 
         alert(error.message);
+
+    }
+
+}
+
+// ===============================
+// Edit Product
+// ===============================
+
+async function editProduct(id) {
+
+    try {
+
+        const response = await fetch(`${PRODUCT_API}/${id}`);
+        const product = await response.json();
+
+        editingId = id;
+
+        productName.value = product.name;
+        productCategory.value = product.category_id;
+        productSupplier.value = product.supplier_id;
+        productPrice.value = product.price;
+        productStock.value = product.stock;
+
+        submitButton.textContent = "Update";
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+// ===============================
+// Delete Product
+// ===============================
+
+async function deleteProduct(id) {
+
+    const confirmDelete = confirm("Yakin ingin menghapus product?");
+
+    if (!confirmDelete) return;
+
+    try {
+
+        const response = await fetch(`${PRODUCT_API}/${id}`, {
+            method: "DELETE"
+        });
+
+        const result = await response.json();
+
+        alert(result.message);
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
 
     }
 
