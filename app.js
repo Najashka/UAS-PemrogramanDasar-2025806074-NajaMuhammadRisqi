@@ -69,6 +69,13 @@ app.get("/suppliers", (req, res) => {
 });
 
 // ===============================
+// Halaman Customers
+// ===============================
+app.get("/customers", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "customers.html"));
+});
+
+// ===============================
 // Database Connection Test
 // ===============================
 const PORT = process.env.PORT || 3000;

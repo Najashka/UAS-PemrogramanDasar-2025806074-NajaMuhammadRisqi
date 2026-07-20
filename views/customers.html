@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/table.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <aside class="sidebar">
+        <h2>Sales Inventory</h2>
+
+        <ul>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/categories">Categories</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/suppliers">Suppliers</a></li>
+            <li><a href="/customers" class="active">Customers</a></li>
+            <li><a href="/sales">Sales</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <h1>Customer Management</h1>
+
+        <form id="customerForm">
+
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Customer Name"
+                required
+            >
+
+            <input
+                type="text"
+                id="customerPhone"
+                placeholder="Phone"
+            >
+
+            <input
+                type="email"
+                id="customerEmail"
+                placeholder="Email"
+            >
+
+            <textarea
+                id="customerAddress"
+                placeholder="Address"
+            ></textarea>
+
+            <button type="submit">
+                Save
+            </button>
+
+        </form>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="customerTable">
+
+            </tbody>
+
+        </table>
+
+    </main>
+
+</div>
+
+<script src="/js/customer.js"></script>
+
+</body>
+</html>
