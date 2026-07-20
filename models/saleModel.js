@@ -2,6 +2,9 @@ import db from "../config/db.js";
 
 const SalesModel = {
 
+    // ===============================
+    // GET ALL SALES
+    // ===============================
     async getAll() {
 
         const [rows] = await db.query(`
@@ -20,7 +23,7 @@ const SalesModel = {
 
         return rows;
 
-    }
+    },
 
 };
 
