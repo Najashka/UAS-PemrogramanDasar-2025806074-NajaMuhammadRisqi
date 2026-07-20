@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import supplierRoutes from "./routes/supplierRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
 
 dotenv.config();
 
@@ -33,10 +34,11 @@ app.use(express.static(path.join(__dirname, "public")));
 // ===============================
 app.use("/api/categories", categoryRoutes);
 
-
 app.use("/api/products", productRoutes);
 
 app.use("/api/suppliers", supplierRoutes);
+
+app.use("/api/customers", customerRoutes);
 
 // ===============================
 // Halaman Utama
