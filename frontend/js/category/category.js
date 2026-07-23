@@ -1,3 +1,66 @@
+import { requireAuth } from "../auth/guard.js";
+import { renderLayout } from "../layout/layout.js";
+
+requireAuth("admin");
+
+renderLayout("Category", `
+
+<div class="page-header">
+
+    <h2>Category</h2>
+
+</div>
+
+<div class="card">
+
+    <h3>Tambah Category</h3>
+
+    <form id="categoryForm">
+
+        <input
+            id="categoryName"
+            type="text"
+            placeholder="Nama Category"
+            required>
+
+        <button type="submit">
+
+            Tambah
+
+        </button>
+
+    </form>
+
+</div>
+
+<div class="card">
+
+    <h3>Daftar Category</h3>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nama</th>
+
+                <th width="150">Aksi</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="categoryTable"></tbody>
+
+    </table>
+
+</div>
+
+`);
+
 const API_URL = "/api/categories";
 
 const categoryForm = document.getElementById("categoryForm");

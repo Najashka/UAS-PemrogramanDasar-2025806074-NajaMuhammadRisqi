@@ -1,4 +1,5 @@
 import { requireAuth } from "../auth/guard.js";
+import { renderLayout } from "../layout/layout.js";
 
 requireAuth("admin");
 

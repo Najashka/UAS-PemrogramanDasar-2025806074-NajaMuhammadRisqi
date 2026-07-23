@@ -1,5 +1,7 @@
 import { getUser } from "../auth/auth.js";
 
+const currentPage = window.location.pathname.split("/").pop();
+
 export function createSidebar() {
 
     const user = getUser();
@@ -82,18 +84,26 @@ export function createSidebar() {
 
         </div>
 
+        <div class="sidebar-user">
+
+            <strong>${user.name}</strong>
+
+            <small>${user.role}</small>
+
+        </div>
+
         <ul>
 
             ${menus.map(menu => `
 
                 <li>
 
-                    <a href="${menu.link}">
-
+                    <a
+                        href="${menu.link}"
+                        class="${currentPage === menu.link ? "active" : ""}"
+                    >
                         <i class="${menu.icon}"></i>
-
                         ${menu.title}
-
                     </a>
 
                 </li>

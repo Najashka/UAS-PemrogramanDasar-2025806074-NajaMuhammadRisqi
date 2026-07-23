@@ -1,39 +1,33 @@
 import { getUser } from "../auth/auth.js";
 
-export function createNavbar(){
+export function createNavbar(title) {
 
     const user = getUser();
 
     return `
+        <header class="navbar">
 
-    <header class="navbar">
+            <h2>${title}</h2>
 
-        <div>
+            <div class="user-info">
 
-            <h2>Dashboard</h2>
+                <div>
 
-        </div>
+                    <strong>${user.name}</strong><br>
 
-        <div class="user-info">
+                    <small>${user.role}</small>
 
-            <div>
+                </div>
 
-                <strong>${user.name}</strong>
+                <div class="avatar">
 
-                <small>${user.role}</small>
+                    <i class="fa-solid fa-user"></i>
 
-            </div>
-
-            <div class="avatar">
-
-                <i class="fa-solid fa-user"></i>
+                </div>
 
             </div>
 
-        </div>
-
-    </header>
-
+        </header>
     `;
 
 }

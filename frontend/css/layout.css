@@ -139,3 +139,27 @@ main{
     padding:30px;
 
 }
+
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.sidebar a:hover {
+    background: #374151;
+    border-radius: 8px;
+}
+
+.sidebar-user{
+    text-align:center;
+    padding:20px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar-user small{
+    display:block;
+    color:#bdbdbd;
+    margin-top:5px;
+}

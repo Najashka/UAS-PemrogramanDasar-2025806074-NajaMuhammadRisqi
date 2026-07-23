@@ -2,17 +2,16 @@ import { createSidebar } from "./sidebar.js";
 import { createNavbar } from "./navbar.js";
 import { clearLogin } from "../auth/auth.js";
 
-export function renderLayout(content) {
+export function renderLayout(title, content) {
 
     const app = document.getElementById("app");
 
     app.innerHTML = `
-
         ${createSidebar()}
 
         <main>
 
-            ${createNavbar()}
+            ${createNavbar(title)}
 
             <section class="content">
 
@@ -21,16 +20,15 @@ export function renderLayout(content) {
             </section>
 
         </main>
-
     `;
 
     document
         .getElementById("logoutBtn")
-        .addEventListener("click", () => {
+        ?.addEventListener("click", () => {
 
             clearLogin();
 
-            location.href="/pages/login.html";
+            location.href = "/pages/login.html";
 
         });
 
