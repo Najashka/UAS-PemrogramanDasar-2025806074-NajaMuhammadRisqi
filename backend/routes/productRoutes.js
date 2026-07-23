@@ -1,15 +1,42 @@
 import express from "express";
 import ProductController from "../controllers/productController.js";
 
+import verifyToken from "../middleware/verifyToken.js";
+import authorize from "../middleware/authorize.js";
+
 const router = express.Router();
 
-router.get("/", ProductController.getAll);
-router.get("/:id", ProductController.getById);
+router.get(
+    "/",
+    verifyToken,
+    ProductController.getAll
+);
 
-router.post("/", ProductController.create);
+router.get(
+    "/:id",
+    verifyToken,
+    ProductController.getById
+);
 
-router.put("/:id", ProductController.update);
+router.post(
+    "/",
+    verifyToken,
+    authorize("admin"),
+    ProductController.create
+);
 
-router.delete("/:id", ProductController.delete);
+router.put(
+    "/:id",
+    verifyToken,
+    authorize("admin"),
+    ProductController.update
+);
+
+router.delete(
+    "/:id",
+    verifyToken,
+    authorize("admin"),
+    ProductController.delete
+);
 
 export default router;
