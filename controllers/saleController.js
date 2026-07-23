@@ -10,7 +10,7 @@ const SalesController = {
 
         try {
 
-            const sales = await SalesModel.getAll();
+            const sales = await SaleModel.getAll();
 
             res.json(sales);
 
@@ -33,7 +33,7 @@ const SalesController = {
 
         try {
 
-            const sale = await SalesModel.getById(req.params.id);
+            const sale = await SaleModel.getById(req.params.id);
 
             if (!sale) {
                 return res.status(404).json({
@@ -115,7 +115,7 @@ const SalesController = {
                 details
             } = req.body;
 
-            await SalesModel.update(req.params.id, sale);
+            await SaleModel.update(req.params.id, sale);
 
             await SaleDetailModel.deleteBySaleId(req.params.id);
 
@@ -155,7 +155,7 @@ const SalesController = {
 
         try {
 
-            await SalesModel.delete(req.params.id);
+            await SaleModel.delete(req.params.id);
 
             res.json({
                 message: "Sale deleted successfully"
