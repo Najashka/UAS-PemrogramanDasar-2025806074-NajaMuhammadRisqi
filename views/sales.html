@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Sales</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="/css/sales.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Sales Transaction</h1>
+
+        <!-- ===============================
+             CUSTOMER
+        ================================ -->
+
+        <div class="form-group">
+
+            <label>Customer</label>
+
+            <select id="customerSelect">
+
+                <option value="">Select Customer</option>
+
+            </select>
+
+        </div>
+
+        <!-- ===============================
+             PAYMENT
+        ================================ -->
+
+        <div class="form-group">
+
+            <label>Payment Method</label>
+
+            <select id="paymentMethod">
+
+                <option value="Cash">Cash</option>
+
+                <option value="Transfer">Transfer</option>
+
+                <option value="QRIS">QRIS</option>
+
+            </select>
+
+        </div>
+
+        <!-- ===============================
+             PRODUCT
+        ================================ -->
+
+        <div class="form-group">
+
+            <label>Product</label>
+
+            <select id="productSelect">
+
+                <option value="">Select Product</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Quantity</label>
+
+            <input
+                type="number"
+                id="quantity"
+                min="1"
+                value="1">
+
+        </div>
+
+        <button id="addToCartBtn">
+
+            Add To Cart
+
+        </button>
+
+        <hr>
+
+        <!-- ===============================
+             CART
+        ================================ -->
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Product</th>
+
+                    <th>Qty</th>
+
+                    <th>Price</th>
+
+                    <th>Subtotal</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="cartTableBody">
+
+            </tbody>
+
+        </table>
+
+        <h2>
+
+            Total :
+            <span id="grandTotal">
+
+                Rp 0
+
+            </span>
+
+        </h2>
+
+        <button id="checkoutBtn">
+
+            Checkout
+
+        </button>
+
+    </div>
+
+    <script src="/js/sales.js"></script>
+
+</body>
+
+</html>
