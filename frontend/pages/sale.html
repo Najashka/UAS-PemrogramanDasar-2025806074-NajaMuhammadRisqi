@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales POS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet" href="css/sales.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="search-box">
+
+        <i class="fa-solid fa-barcode"></i>
+
+        <input
+            id="searchProduct"
+            type="text"
+            placeholder="Search product or barcode">
+
+        <div
+            id="searchResult"
+            class="search-result">
+        </div>
+
+    </div>
+
+    <div class="cashier">
+
+        Kasir :
+        <strong>Admin</strong>
+
+    </div>
+
+</div>
+
+
+<div class="content">
+
+    <div class="cart-section">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="cartTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="action-panel">
+
+        <button>
+            <i class="fa-solid fa-trash"></i>
+            Delete
+        </button>
+
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Search
+            <button id="openSearchModal"></button>
+        </button>
+
+        <button>
+            <i class="fa-solid fa-plus"></i>
+            Qty
+        </button>
+
+        <button>
+            <i class="fa-solid fa-cart-plus"></i>
+            New Sale
+        </button>
+
+        <button class="payment">
+            Cash
+        </button>
+
+        <button class="payment">
+            Debit
+        </button>
+
+        <button class="payment">
+            QRIS
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <div class="total-box">
+
+        <div>
+
+            <span>Subtotal</span>
+
+            <span id="subtotal">
+                Rp0
+            </span>
+
+        </div>
+
+        <div>
+
+            <span>Pajak</span>
+
+            <span>
+                Rp0
+            </span>
+
+        </div>
+
+        <div class="grand">
+
+            <span>TOTAL</span>
+
+            <span id="grandTotal">
+                Rp0
+            </span>
+
+        </div>
+
+    </div>
+
+    <button id="payButton">
+
+        F10
+        <br>
+
+        BAYAR
+
+    </button>
+
+</div>
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Cari Produk</h2>
+
+            <button id="closeModal">&times;</button>
+
+        </div>
+
+        <input
+            type="text"
+            id="modalSearch"
+            placeholder="Cari nama atau barcode...">
+
+        <div id="modalProductList">
+
+        </div>
+
+        <div class="modal-footer">
+
+            ↑ ↓ Pilih
+            &nbsp;&nbsp;
+            Enter Tambah
+            &nbsp;&nbsp;
+            Esc Tutup
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/sales.js"></script>
+
+</body>
+</html>
