@@ -72,7 +72,7 @@ const SalesController = {
                 details
             } = req.body;
 
-            const saleId = await SalesModel.create(sale);
+            const saleId = await SaleModel.create(sale);
 
             for (const item of details) {
 

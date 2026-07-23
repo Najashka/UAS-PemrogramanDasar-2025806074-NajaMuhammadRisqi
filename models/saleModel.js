@@ -1,6 +1,6 @@
 import db from "../config/db.js";
 
-const SalesModel = {
+const SaleModel = {
 
     // ===============================
     // GET ALL SALES
@@ -120,4 +120,4 @@ const SalesModel = {
 };
 
 
-export default SalesModel;
+export default SaleModel;
