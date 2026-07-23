@@ -1,3 +1,120 @@
+import { requireAuth } from "../auth/guard.js";
+import { renderLayout } from "../layout/layout.js";
+
+requireAuth("admin");
+
+renderLayout("Supplier", `
+
+<div class="page-header">
+
+    <h2>Supplier</h2>
+
+</div>
+
+<div class="card">
+
+    <h3>Tambah Supplier</h3>
+
+    <form id="supplierForm">
+
+        <div class="form-grid">
+
+            <div>
+
+                <label>Nama Supplier</label>
+
+                <input
+                    type="text"
+                    id="supplierName"
+                    required>
+
+            </div>
+
+            <div>
+
+                <label>No HP</label>
+
+                <input
+                    type="text"
+                    id="supplierPhone"
+                    required>
+
+            </div>
+
+            <div class="full-width">
+
+                <label>Alamat</label>
+
+                <textarea
+                    id="supplierAddress"
+                    rows="3"
+                    required></textarea>
+
+            </div>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn-primary">
+
+            Tambah Supplier
+
+        </button>
+
+    </form>
+
+</div>
+
+<div class="card">
+
+    <div class="table-header">
+
+        <h3>Daftar Supplier</h3>
+
+        <input
+            id="searchSupplier"
+            placeholder="Cari Supplier">
+
+    </div>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nama</th>
+
+                <th>Phone</th>
+
+                <th>Alamat</th>
+
+                <th width="150">Aksi</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="supplierTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+`);
+
+const token = localStorage.getItem("token");
+
+const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+};
+
 // ===============================
 // API
 // ===============================
@@ -17,6 +134,11 @@ const supplierAddress = document.getElementById("supplierAddress");
 
 const supplierTable = document.getElementById("supplierTable");
 
+const submitButton =
+    supplierForm.querySelector("button[type='submit']");
+
+const searchSupplier =
+    document.getElementById("searchSupplier");
 
 // ===============================
 // State
@@ -31,11 +153,59 @@ async function loadSuppliers() {
 
     try {
 
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, {
+            headers
+        });
 
         const suppliers = await response.json();
 
-        renderTable(suppliers);
+        if (!Array.isArray(suppliers)) {
+
+            console.error(suppliers);
+
+            return;
+
+        }
+
+        supplierTable.innerHTML = "";
+
+        suppliers.forEach((supplier, index) => {
+
+            supplierTable.innerHTML += `
+
+                <tr>
+
+                    <td>${index + 1}</td>
+
+                    <td>${supplier.name}</td>
+
+                    <td>${supplier.phone}</td>
+
+                    <td>${supplier.address}</td>
+
+                    <td>
+
+                        <button
+                            onclick="editSupplier(${supplier.id})">
+
+                            Edit
+
+                        </button>
+
+                        <button
+                            onclick="deleteSupplier(${supplier.id})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
 
     } catch (error) {
 
@@ -46,106 +216,80 @@ async function loadSuppliers() {
 }
 
 // ===============================
-// Render Table
+// Save Suppliers
 // ===============================
 
-function renderTable(suppliers) {
+async function saveSupplier(e) {
 
-    supplierTable.innerHTML = "";
-
-    suppliers.forEach((supplier) => {
-
-        supplierTable.innerHTML += `
-            <tr>
-
-                <td>${supplier.id}</td>
-
-                <td>${supplier.name}</td>
-
-                <td>${supplier.phone}</td>
-
-                <td>${supplier.address}</td>
-
-                <td>
-
-                    <button
-                        class="btn-edit"
-                        data-id="${supplier.id}">
-                        Edit
-                    </button>
-
-                    <button
-                        class="btn-delete"
-                        data-id="${supplier.id}">
-                        Delete
-                    </button>
-
-                </td>
-
-            </tr>
-        `;
-
-    });
-
-}
-
-// ===============================
-// Create Supplier
-// ===============================
-
-async function addSupplier(event) {
-
-    event.preventDefault();
+    e.preventDefault();
 
     const supplier = {
 
         name: supplierName.value.trim(),
+
         phone: supplierPhone.value.trim(),
+
         address: supplierAddress.value.trim()
 
     };
 
+    if (
+        !supplier.name ||
+        !supplier.phone ||
+        !supplier.address
+    ) {
+
+        alert("Semua field wajib diisi!");
+
+        return;
+
+    }
+
+    const url = editingId
+        ? `${API_URL}/${editingId}`
+        : API_URL;
+
+    const method = editingId
+        ? "PUT"
+        : "POST";
+
     try {
-
-        const url = editingId
-            ? `${API_URL}/${editingId}`
-            : API_URL;
-
-        const method = editingId
-            ? "PUT"
-            : "POST";
 
         const response = await fetch(url, {
 
             method,
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers,
 
             body: JSON.stringify(supplier)
 
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
 
-            throw new Error("Gagal menyimpan supplier");
+            alert(result.message);
+
+            return;
 
         }
 
+        alert(result.message);
+
         supplierForm.reset();
+
         editingId = null;
 
-        supplierForm.querySelector("button").textContent =
-            "Tambah";
+        submitButton.textContent = "Tambah Supplier";
 
-        loadSuppliers();
+        supplierName.focus();
+
+        await loadSuppliers();
 
     } catch (error) {
 
         console.error(error);
-
-        alert(error.message);
 
     }
 
@@ -159,20 +303,27 @@ async function editSupplier(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await fetch(`${API_URL}/${id}`, {
+            headers
+        });
 
         const supplier = await response.json();
+
+        if (!response.ok) {
+
+            alert(supplier.message);
+
+            return;
+
+        }
+
+        editingId = id;
 
         supplierName.value = supplier.name;
         supplierPhone.value = supplier.phone;
         supplierAddress.value = supplier.address;
 
-        editingId = id;
-
-        supplierForm.querySelector("button").textContent =
-            "Update";
-
-        supplierName.focus();
+        submitButton.textContent = "Update Supplier";
 
     } catch (error) {
 
@@ -188,11 +339,7 @@ async function editSupplier(id) {
 
 async function deleteSupplier(id) {
 
-    const confirmDelete = confirm(
-        "Yakin ingin menghapus supplier ini?"
-    );
-
-    if (!confirmDelete) {
+    if (!confirm("Yakin ingin menghapus supplier?")) {
 
         return;
 
@@ -202,59 +349,61 @@ async function deleteSupplier(id) {
 
         const response = await fetch(`${API_URL}/${id}`, {
 
-            method: "DELETE"
+            method: "DELETE",
+
+            headers
 
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
 
-            throw new Error("Gagal menghapus supplier");
+            alert(result.message);
+
+            return;
 
         }
 
-        loadSuppliers();
+        alert(result.message);
+
+        await loadSuppliers();
 
     } catch (error) {
 
         console.error(error);
 
-        alert(error.message);
-
     }
 
 }
 
-// ===============================
-// Handle Table Click
-// ===============================
+searchSupplier.addEventListener("input", () => {
 
-function handleTableClick(event) {
+    const keyword =
+        searchSupplier.value.toLowerCase();
 
-    const button = event.target;
+    const rows =
+        supplierTable.querySelectorAll("tr");
 
-    const id = button.dataset.id;
+    rows.forEach(row => {
 
-    if (button.classList.contains("btn-edit")) {
+        row.style.display =
+            row.innerText
+                .toLowerCase()
+                .includes(keyword)
+                ? ""
+                : "none";
 
-        editSupplier(id);
+    });
 
-    }
+});
 
-    if (button.classList.contains("btn-delete")) {
+supplierForm.addEventListener(
+    "submit",
+    saveSupplier
+);
 
-        deleteSupplier(id);
-
-    }
-
-}
-
-
+window.editSupplier = editSupplier;
+window.deleteSupplier = deleteSupplier;
 
 loadSuppliers();
-
-supplierForm.addEventListener("submit", addSupplier);
-
-supplierTable.addEventListener(
-    "click",
-    handleTableClick
-);

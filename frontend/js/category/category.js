@@ -1,6 +1,7 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
 
+
 requireAuth("admin");
 
 renderLayout("Category", `
@@ -60,6 +61,13 @@ renderLayout("Category", `
 </div>
 
 `);
+
+const token = localStorage.getItem("token");
+
+const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+};
 
 const API_URL = "/api/categories";
 
