@@ -14,71 +14,98 @@ async function loadProducts(){
 
 }
 
-searchInput.addEventListener("input", function(){
+searchInput.addEventListener("input", function () {
 
-    const keyword = this.value.toLowerCase();
+    const keyword = this.value.trim().toLowerCase();
 
-    if(keyword===""){
-
-        searchResult.style.display="none";
-
+    if (keyword === "") {
+        searchResult.style.display = "none";
+        selectedIndex = -1;
         return;
-
     }
 
-    const result = products.filter(product=>{
+    filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(keyword)
+    );
 
-        return product.name
-            .toLowerCase()
-            .includes(keyword);
+    selectedIndex = -1;
 
-    });
-
-    renderSearch(result);
+    renderSearch(filteredProducts);
 
 });
 
-function renderSearch(data){
+function renderSearch(data) {
 
-    searchResult.innerHTML="";
+    searchResult.innerHTML = "";
 
-    if(data.length===0){
-
-        searchResult.style.display="none";
-
+    if (data.length === 0) {
+        searchResult.style.display = "none";
         return;
-
     }
 
-    data.forEach(product=>{
+    data.forEach((product, index) => {
 
-        searchResult.innerHTML+=`
+        searchResult.innerHTML += `
+            <div
+                class="search-item ${index === selectedIndex ? "active" : ""}"
+                onclick="addToCart(${product.id})">
 
-        <div
-            class="search-item"
-            onclick="addToCart(${product.id})">
+                <span>${product.name}</span>
 
-            <span>
+                <span>
+                    Rp ${Number(product.price).toLocaleString("id-ID")}
+                </span>
 
-                ${product.name}
-
-            </span>
-
-            <span>
-
-                Rp ${Number(product.price).toLocaleString("id-ID")}
-
-            </span>
-
-        </div>
-
+            </div>
         `;
 
     });
 
-    searchResult.style.display="block";
+    searchResult.style.display = "block";
 
 }
+
+searchInput.addEventListener("keydown", function (e) {
+
+    if (searchResult.style.display !== "block") return;
+
+    if (e.key === "ArrowDown") {
+
+        e.preventDefault();
+
+        if (selectedIndex < filteredProducts.length - 1) {
+            selectedIndex++;
+        }
+
+        renderSearch(filteredProducts);
+
+    }
+
+    if (e.key === "ArrowUp") {
+
+        e.preventDefault();
+
+        if (selectedIndex > 0) {
+            selectedIndex--;
+        }
+
+        renderSearch(filteredProducts);
+
+    }
+
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        if (selectedIndex >= 0) {
+
+            addToCart(filteredProducts[selectedIndex].id);
+
+        }
+
+    }
+
+});
 
 function addToCart(id) {
 
@@ -207,5 +234,8 @@ function removeItem(id){
     renderCart();
 
 }
+
+let selectedIndex = -1;
+let filteredProducts = [];
 
 loadProducts();

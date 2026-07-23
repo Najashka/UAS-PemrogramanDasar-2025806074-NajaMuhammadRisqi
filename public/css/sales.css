@@ -435,3 +435,11 @@ td{
     background:#c62828;
 
 }
+
+.search-item.active{
+
+    background:#4a90e2;
+
+    color:white;
+
+}
