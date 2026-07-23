@@ -9,6 +9,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import supplierRoutes from "./routes/supplierRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
+import saleRoutes from "./routes/saleRoutes.js";
 
 dotenv.config();
 
@@ -39,6 +40,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/suppliers", supplierRoutes);
 
 app.use("/api/customers", customerRoutes);
+
+app.use("/api/sales", saleRoutes);
 
 // ===============================
 // Halaman Utama
