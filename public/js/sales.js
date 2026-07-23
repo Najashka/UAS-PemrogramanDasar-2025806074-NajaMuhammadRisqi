@@ -124,12 +124,41 @@ function renderCart() {
         subtotal += total;
 
         cartTable.innerHTML += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.qty}</td>
-                <td>Rp ${item.price.toLocaleString("id-ID")}</td>
-                <td>Rp ${total.toLocaleString("id-ID")}</td>
-            </tr>
+        <tr>
+
+            <td>${item.name}</td>
+
+            <td>
+
+                <button class="qty-btn" onclick="decreaseQty(${item.id})">-</button>
+
+                <span class="qty-number">${item.qty}</span>
+
+                <button class="qty-btn" onclick="increaseQty(${item.id})">+</button>
+
+            </td>
+
+            <td>
+                Rp ${item.price.toLocaleString("id-ID")}
+            </td>
+
+            <td>
+                Rp ${total.toLocaleString("id-ID")}
+            </td>
+
+            <td>
+
+                <button
+                    class="delete-btn"
+                    onclick="removeItem(${item.id})">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </td>
+
+        </tr>
         `;
 
     });
@@ -139,6 +168,44 @@ function renderCart() {
 
     document.getElementById("grandTotal").textContent =
         "Rp " + subtotal.toLocaleString("id-ID");
+}
+
+function increaseQty(id){
+
+    const item = cart.find(item=>item.id===id);
+
+    if(!item) return;
+
+    item.qty++;
+
+    renderCart();
+
+}
+
+function decreaseQty(id){
+
+    const item = cart.find(item=>item.id===id);
+
+    if(!item) return;
+
+    item.qty--;
+
+    if(item.qty<=0){
+
+        cart = cart.filter(item=>item.id!==id);
+
+    }
+
+    renderCart();
+
+}
+
+function removeItem(id){
+
+    cart = cart.filter(item=>item.id!==id);
+
+    renderCart();
+
 }
 
 loadProducts();

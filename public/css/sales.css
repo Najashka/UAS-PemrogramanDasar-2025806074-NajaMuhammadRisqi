@@ -377,3 +377,61 @@ td{
     background:#444;
 
 }
+
+.qty-btn{
+
+    width:28px;
+
+    height:28px;
+
+    border:none;
+
+    cursor:pointer;
+
+    background:#4a4a4a;
+
+    color:white;
+
+    border-radius:4px;
+
+}
+
+.qty-btn:hover{
+
+    background:#5d5d5d;
+
+}
+
+.qty-number{
+
+    display:inline-block;
+
+    width:30px;
+
+    text-align:center;
+
+}
+
+.delete-btn{
+
+    background:#e53935;
+
+    border:none;
+
+    color:white;
+
+    width:35px;
+
+    height:35px;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+}
+
+.delete-btn:hover{
+
+    background:#c62828;
+
+}
