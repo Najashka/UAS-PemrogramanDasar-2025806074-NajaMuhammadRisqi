@@ -3,6 +3,142 @@ import { renderLayout } from "../layout/layout.js";
 
 requireAuth("admin");
 
+renderLayout("Product", `
+
+<div class="page-header">
+
+    <h2>Product</h2>
+
+</div>
+
+<div class="card">
+
+    <h3>Tambah Product</h3>
+
+    <form id="productForm">
+
+        <div class="form-grid">
+
+            <div>
+
+                <label>Nama Product</label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    required>
+
+            </div>
+
+            <div>
+
+                <label>Category</label>
+
+                <select id="categorySelect">
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <label>Supplier</label>
+
+                <select id="supplierSelect">
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <label>Harga</label>
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    required>
+
+            </div>
+
+            <div>
+
+                <label>Stock</label>
+
+                <input
+                    type="number"
+                    id="productStock"
+                    required>
+
+            </div>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn-primary">
+
+            Tambah Product
+
+        </button>
+
+    </form>
+
+</div>
+
+<div class="card">
+
+    <div class="table-header">
+
+        <h3>Daftar Product</h3>
+
+        <input
+            id="searchProduct"
+            placeholder="Cari Product">
+
+    </div>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nama</th>
+
+                <th>Category</th>
+
+                <th>Supplier</th>
+
+                <th>Harga</th>
+
+                <th>Stock</th>
+
+                <th>Aksi</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="productTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+`);
+
+const token = localStorage.getItem("token");
+
+const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+};
+
 // ===============================
 // API
 // ===============================
@@ -21,8 +157,8 @@ const productForm = document.getElementById("productForm");
 const submitButton = productForm.querySelector("button[type='submit']");
 
 const productName = document.getElementById("productName");
-const productCategory = document.getElementById("productCategory");
-const productSupplier = document.getElementById("productSupplier");
+const productCategory = document.getElementById("categorySelect");
+const productSupplier = document.getElementById("supplierSelect");
 const productPrice = document.getElementById("productPrice");
 const productStock = document.getElementById("productStock");
 
@@ -42,7 +178,9 @@ async function loadCategories() {
 
     try {
 
-        const response = await fetch(CATEGORY_API);
+        const response = await fetch(CATEGORY_API, {
+            headers
+        });
 
         const categories = await response.json();
 
@@ -75,7 +213,9 @@ async function loadSuppliers() {
 
     try {
 
-        const response = await fetch(SUPPLIER_API);
+        const response = await fetch(SUPPLIER_API, { 
+            headers 
+        });
 
         const suppliers = await response.json();
 
@@ -108,9 +248,18 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch(PRODUCT_API);
+        const response = await fetch(PRODUCT_API, {
+            headers
+        });
 
         const products = await response.json();
+        if (!Array.isArray(products)) {
+
+            console.error(products);
+
+            return;
+
+        }
 
         productTable.innerHTML = "";
 
@@ -183,9 +332,7 @@ async function saveProduct(e) {
 
             method,
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers,
 
             body: JSON.stringify(product)
 
@@ -225,7 +372,9 @@ async function editProduct(id) {
 
     try {
 
-        const response = await fetch(`${PRODUCT_API}/${id}`);
+        const response = await fetch(`${PRODUCT_API}/${id}`, {
+            headers
+        });
         const product = await response.json();
 
         editingId = id;
@@ -259,7 +408,11 @@ async function deleteProduct(id) {
     try {
 
         const response = await fetch(`${PRODUCT_API}/${id}`, {
-            method: "DELETE"
+
+            method:"DELETE",
+
+            headers
+
         });
 
         const result = await response.json();
@@ -283,3 +436,6 @@ productForm.addEventListener("submit", saveProduct);
 loadCategories();
 loadSuppliers();
 loadProducts();
+
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
