@@ -24,6 +24,9 @@ const ProductModel = {
 
     },
 
+// ===============================
+// GET PRODUCT BY ID
+// ===============================
     async getById(id) {
 
         const [rows] = await db.query(

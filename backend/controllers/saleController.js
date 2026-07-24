@@ -27,7 +27,7 @@ const SalesController = {
 
     },
 
-        // ===============================
+    // ===============================
     // GET SALE BY ID
     // ===============================
     async getById(req, res) {
@@ -61,7 +61,7 @@ const SalesController = {
 
     },
 
-        // ===============================
+    // ===============================
     // CREATE SALE
     // ===============================
     async create(req, res) {
@@ -72,6 +72,40 @@ const SalesController = {
                 sale,
                 details
             } = req.body;
+            
+            if (!sale || !Array.isArray(details) || details.length === 0) {
+
+                return res.status(400).json({
+                    message: "Data penjualan tidak valid"
+                });
+
+            }
+
+            // ===============================
+            // VALIDASI STOCK
+            // ===============================
+            for (const item of details) {
+
+                const product =
+                    await ProductModel.getById(item.product_id);
+
+                if (!product) {
+
+                    return res.status(404).json({
+                        message: "Product tidak ditemukan"
+                    });
+
+                }
+
+                if (product.stock < item.quantity) {
+
+                    return res.status(400).json({
+                        message: `${product.name} stok tidak mencukupi`
+                    });
+
+                }
+
+            }
 
             const saleId = await SaleModel.create(sale);
 

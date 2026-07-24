@@ -256,17 +256,26 @@ async function addToCart(id) {
 
     const exist = cart.find(item => item.id === product.id);
 
-    if (exist) {
+        if (exist) {
 
-        exist.qty++;
+            if (exist.qty >= exist.stock) {
 
-    } else {
+                alert("Stok produk tidak mencukupi.");
+
+                return;
+
+            }
+
+            exist.qty++;
+
+        } else {
 
         cart.push({
 
             id: product.id,
             name: product.name,
             price: Number(product.price),
+            stock: Number(product.stock),
             qty: 1
 
         });
@@ -351,11 +360,19 @@ function removeCart(id){
 
 }
 
-function increaseQty(id){
+function increaseQty(id) {
 
     const item = cart.find(item => item.id === id);
 
-    if(!item) return;
+    if (!item) return;
+
+    if (item.qty >= item.stock) {
+
+        alert("Stok produk tidak mencukupi.");
+
+        return;
+
+    }
 
     item.qty++;
 
