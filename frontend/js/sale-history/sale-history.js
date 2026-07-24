@@ -2,9 +2,12 @@ import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
 import { apiFetch } from "../api/api.js";
 
+
 requireAuth("admin");
 
+
 renderLayout("Sales History", `
+
 
 <div class="page-header">
 
@@ -12,164 +15,182 @@ renderLayout("Sales History", `
 
 </div>
 
+
 <div class="card">
+
 
     <div class="table-header">
 
-        <h3>Daftar Transaksi</h3>
+
+        <h3>Riwayat Penjualan</h3>
+
 
         <input
             id="searchSale"
             placeholder="Cari Customer">
 
+
     </div>
 
+
+
     <table class="table">
+
 
         <thead>
 
             <tr>
 
                 <th>No</th>
+
                 <th>Customer</th>
+
                 <th>Tanggal</th>
-                <th>Total</th>
+
+                <th>Pembayaran</th>
+
                 <th>Status</th>
-                <th width="120">Aksi</th>
+
+                <th>Total</th>
+
+                <th>Aksi</th>
 
             </tr>
 
+
         </thead>
 
-        <tbody id="saleTable">
+
+        <tbody id="saleHistoryTable">
+
 
         </tbody>
 
+
     </table>
+
 
 </div>
 
+
 `);
 
-const API_URL = "/api/sales";
 
-const saleTable = document.getElementById("saleTable");
-const searchSale = document.getElementById("searchSale");
+// ===============================
+// API
+// ===============================
 
-async function loadSales() {
+const SALES_API = "/api/sales";
+
+
+// ===============================
+// DOM
+// ===============================
+
+const saleHistoryTable =
+    document.getElementById("saleHistoryTable");
+
+
+// ===============================
+// Load Sales History
+// ===============================
+
+async function loadSalesHistory() {
+
 
     try {
 
-        const response = await apiFetch(API_URL);
+
+        const response = await apiFetch(SALES_API);
+
 
         if (!response) return;
 
+
         const sales = await response.json();
 
-        saleTable.innerHTML = "";
+
+
+        if (!response.ok) {
+
+            alert(sales.message);
+
+            return;
+
+        }
+
+
+
+        saleHistoryTable.innerHTML = "";
+
+
 
         sales.forEach((sale, index) => {
 
-            saleTable.innerHTML += createRow(
-                sale,
-                index
-            );
+
+            saleHistoryTable.innerHTML += `
+
+            <tr>
+
+
+                <td>${index + 1}</td>
+
+
+                <td>${sale.customer}</td>
+
+
+                <td>
+                    ${new Date(sale.sale_date)
+                    .toLocaleDateString("id-ID")}
+                </td>
+
+
+                <td>
+                    ${sale.payment_method}
+                </td>
+
+
+                <td>
+                    ${sale.status}
+                </td>
+
+
+                <td>
+                    Rp ${Number(sale.total)
+                    .toLocaleString("id-ID")}
+                </td>
+
+
+                <td>
+
+                    <button>
+                        Detail
+                    </button>
+
+                </td>
+
+
+            </tr>
+
+
+            `;
+
 
         });
 
-    } catch (error) {
+
+
+    } catch(error) {
+
 
         console.error(error);
 
-    }
-
-}
-
-function createRow(sale, index) {
-
-    return `
-
-        <tr>
-
-            <td>${index + 1}</td>
-
-            <td>${sale.customer}</td>
-
-            <td>
-
-                ${new Date(sale.sale_date)
-                    .toLocaleDateString("id-ID")}
-
-            </td>
-
-            <td>
-
-                Rp ${Number(sale.total)
-                    .toLocaleString("id-ID")}
-
-            </td>
-
-            <td>${sale.status}</td>
-
-            <td>
-
-                <button
-                    class="btn-detail"
-                    data-id="${sale.id}">
-
-                    Detail
-
-                </button>
-
-            </td>
-
-        </tr>
-
-    `;
-
-}
-
-function handleTableClick(e) {
-
-    const button = e.target;
-
-    if (
-        button.classList.contains("btn-detail")
-    ) {
-
-        const id = button.dataset.id;
-
-        location.href =
-            `sale-detail.html?id=${id}`;
 
     }
 
+
 }
 
-searchSale.addEventListener("input", () => {
 
-    const keyword =
-        searchSale.value.toLowerCase();
 
-    const rows =
-        saleTable.querySelectorAll("tr");
-
-    rows.forEach(row => {
-
-        row.style.display =
-            row.innerText
-                .toLowerCase()
-                .includes(keyword)
-                ? ""
-                : "none";
-
-    });
-
-});
-
-saleTable.addEventListener(
-    "click",
-    handleTableClick
-);
-
-loadSales();
+loadSalesHistory();
