@@ -45,6 +45,12 @@ export function createSidebar() {
         },
 
         {
+            title: "Sales History",
+            icon: "fa-solid fa-clock-rotate-left",
+            link: "sale-history.html"
+        },
+
+        {
             title: "Report",
             icon: "fa-solid fa-chart-column",
             link: "#"
