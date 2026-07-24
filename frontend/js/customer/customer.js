@@ -1,5 +1,6 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
+import { apiFetch } from "../api/api.js";
 
 requireAuth("admin");
 
@@ -119,15 +120,6 @@ renderLayout("Customer", `
 
 `);
 
-const token = localStorage.getItem("token");
-
-const headers = {
-
-    "Content-Type":"application/json",
-
-    Authorization:`Bearer ${token}`
-
-};
 
 // ===============================
 // API
@@ -164,8 +156,19 @@ let editingId=null;
 
 async function loadCustomers() {
 
-    const response = await fetch(API_URL);
+    const response = await apiFetch(API_URL);
+
+    if (!response) return;
+
     const customers = await response.json();
+
+    if (!response.ok) {
+
+        alert(customers.message);
+
+        return;
+
+    }
 
     customerTable.innerHTML = "";
 
@@ -208,36 +211,65 @@ customerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const data = {
-        name: customerName.value,
-        phone: customerPhone.value,
-        email: customerEmail.value,
-        address: customerAddress.value
+        name: customerName.value.trim(),
+        phone: customerPhone.value.trim(),
+        email: customerEmail.value.trim(),
+        address: customerAddress.value.trim()
     };
+
+    let response;
 
     if (editingId) {
 
-        await fetch(`${API_URL}/${editingId}`, {
+        response = await apiFetch(`${API_URL}/${editingId}`, {
+
             method: "PUT",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify(data)
+
         });
 
     } else {
 
-        await fetch(API_URL, {
+        response = await apiFetch(API_URL, {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify(data)
+
         });
 
     }
 
+    if (!response) return;
+
+    const result = await response.json();
+
+    if (!response.ok) {
+
+        alert(result.message);
+
+        return;
+
+    }
+
+    alert(result.message);
+
     customerForm.reset();
+
     editingId = null;
+
+    submitButton.textContent = "Tambah Customer";
+
+    customerName.focus();
 
     loadCustomers();
 
@@ -250,8 +282,19 @@ customerForm.addEventListener("submit", async (e) => {
 
 async function editCustomer(id) {
 
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await apiFetch(`${API_URL}/${id}`);
+
+    if (!response) return;
+
     const customer = await response.json();
+
+    if (!response.ok) {
+
+        alert(customer.message);
+
+        return;
+
+    }
 
     customerName.value = customer.name;
     customerPhone.value = customer.phone;
@@ -271,9 +314,23 @@ async function deleteCustomer(id) {
 
     if (!confirm("Delete this customer?")) return;
 
-    await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
+
         method: "DELETE"
+
     });
+
+    if (!response) return;
+
+    const result = await response.json();
+
+    if (!response.ok) {
+
+        alert(result.message);
+
+        return;
+
+    }
 
     loadCustomers();
 

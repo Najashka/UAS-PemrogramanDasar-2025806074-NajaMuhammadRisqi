@@ -35,8 +35,10 @@ const verifyToken = (req, res, next) => {
 
     } catch (error) {
 
+        console.error("JWT ERROR:", error);
+
         return res.status(401).json({
-            message: "Token expired atau tidak valid"
+        message: error.message
         });
 
     }

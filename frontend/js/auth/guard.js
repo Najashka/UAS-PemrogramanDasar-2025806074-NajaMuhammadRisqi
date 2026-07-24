@@ -8,7 +8,6 @@ export function requireAuth(...roles) {
     if (!isLoggedIn()) {
 
         location.href = "/pages/login.html";
-
         return;
 
     }
@@ -18,11 +17,19 @@ export function requireAuth(...roles) {
     if (!user) {
 
         location.href = "/pages/login.html";
+        return;
+
+    }
+
+    // Kalau tidak ada role yang dikirim,
+    // cukup pastikan user sudah login.
+    if (roles.length === 0) {
 
         return;
 
     }
 
+    // Kalau role tidak sesuai
     if (!roles.includes(user.role)) {
 
         if (user.role === "cashier") {

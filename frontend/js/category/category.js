@@ -1,5 +1,6 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
+import { apiFetch } from "../api/api.js";
 
 
 requireAuth("admin");
@@ -62,13 +63,6 @@ renderLayout("Category", `
 
 `);
 
-const token = localStorage.getItem("token");
-
-const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`
-};
-
 const API_URL = "/api/categories";
 
 const categoryForm = document.getElementById("categoryForm");
@@ -98,7 +92,9 @@ function createRow(category) {
 async function loadCategories() {
     try {
 
-        const response = await fetch(API_URL);
+        const response = await apiFetch(API_URL);
+
+        if (!response) return;
 
         if (!response.ok) {
             throw new Error("Gagal mengambil data");
@@ -140,7 +136,7 @@ async function addCategory(event) {
             ? "PUT"
             : "POST";
 
-        const response = await fetch(url, {
+        const response = await apiFetch(url, {
 
             method,
 
@@ -153,6 +149,8 @@ async function addCategory(event) {
             })
 
         });
+
+        if (!response) return;
 
         if (!response.ok) {
             throw new Error("Gagal menambah category");
@@ -187,11 +185,13 @@ async function deleteCategory(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await apiFetch(`${API_URL}/${id}`, {
 
             method: "DELETE"
 
         });
+
+        if (!response) return;
 
         if (!response.ok) {
 
@@ -215,7 +215,9 @@ async function editCategory(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await apiFetch(`${API_URL}/${id}`);
+
+        if (!response) return;
 
         const category = await response.json();
 

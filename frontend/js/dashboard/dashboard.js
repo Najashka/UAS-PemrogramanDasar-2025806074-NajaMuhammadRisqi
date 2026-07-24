@@ -1,5 +1,6 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
+import { apiFetch } from "../api/api.js";
 
 requireAuth("admin");
 
@@ -90,18 +91,32 @@ async function loadDashboard() {
     try {
 
         const [
-            products,
-            customers,
-            suppliers,
-            sales
+            productRes,
+            customerRes,
+            supplierRes,
+            saleRes
         ] = await Promise.all([
 
-            fetch("/api/products").then(res => res.json()),
-            fetch("/api/customers").then(res => res.json()),
-            fetch("/api/suppliers").then(res => res.json()),
-            fetch("/api/sales").then(res => res.json())
+            apiFetch("/api/products"),
+            apiFetch("/api/customers"),
+            apiFetch("/api/suppliers"),
+            apiFetch("/api/sales")
 
         ]);
+
+        if (
+            !productRes ||
+            !customerRes ||
+            !supplierRes ||
+            !saleRes
+        ) {
+            return;
+        }
+
+        const products = await productRes.json();
+        const customers = await customerRes.json();
+        const suppliers = await supplierRes.json();
+        const sales = await saleRes.json();
 
         document.getElementById("totalProduct").textContent =
             products.length;
@@ -119,7 +134,7 @@ async function loadDashboard() {
         );
 
         const total = todaySales.reduce((sum, sale) =>
-            sum + Number(sale.total_amount), 0);
+            sum + Number(sale.total), 0);
 
         document.getElementById("salesToday").textContent =
             "Rp " + total.toLocaleString("id-ID");

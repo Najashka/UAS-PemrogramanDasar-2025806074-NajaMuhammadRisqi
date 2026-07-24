@@ -1,5 +1,6 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
+import { apiFetch } from "../api/api.js";
 
 requireAuth("admin");
 
@@ -108,12 +109,6 @@ renderLayout("Supplier", `
 
 `);
 
-const token = localStorage.getItem("token");
-
-const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`
-};
 
 // ===============================
 // API
@@ -153,18 +148,20 @@ async function loadSuppliers() {
 
     try {
 
-        const response = await fetch(API_URL, {
-            headers
-        });
+        const response = await apiFetch(API_URL);
+
+        if (!response) return;
 
         const suppliers = await response.json();
 
-        if (!Array.isArray(suppliers)) {
-
-            console.error(suppliers);
-
+        if (!response.ok) {
+            alert(suppliers.message);
             return;
+        }
 
+        if (!Array.isArray(suppliers)) {
+            console.error(suppliers);
+            return;
         }
 
         supplierTable.innerHTML = "";
@@ -255,15 +252,19 @@ async function saveSupplier(e) {
 
     try {
 
-        const response = await fetch(url, {
+        const response = await apiFetch(url, {
 
             method,
 
-            headers,
+            headers: {
+                "Content-Type": "application/json"
+            },
 
             body: JSON.stringify(supplier)
 
         });
+
+        if (!response) return;
 
         const result = await response.json();
 
@@ -303,9 +304,9 @@ async function editSupplier(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`, {
-            headers
-        });
+        const response = await apiFetch(`${API_URL}/${id}`);
+
+        if (!response) return;
 
         const supplier = await response.json();
 
@@ -347,13 +348,13 @@ async function deleteSupplier(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await apiFetch(`${API_URL}/${id}`, {
 
-            method: "DELETE",
-
-            headers
+            method: "DELETE"
 
         });
+
+        if (!response) return;
 
         const result = await response.json();
 

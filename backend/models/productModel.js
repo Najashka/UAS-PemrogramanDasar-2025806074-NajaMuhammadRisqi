@@ -105,8 +105,29 @@ const ProductModel = {
 
         return result;
 
-    }
+    },
+
+    // ===============================
+    // REDUCE STOCK
+    // ===============================
+    async reduceStock(productId, qty) {
+
+        await db.query(
+            `
+            UPDATE products
+            SET stock = stock - ?
+            WHERE id = ?
+            `,
+            [
+                qty,
+                productId
+            ]
+        );
+
+    },
 
 };
+
+
 
 export default ProductModel;

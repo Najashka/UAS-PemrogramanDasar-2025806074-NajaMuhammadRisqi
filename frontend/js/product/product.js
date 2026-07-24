@@ -1,5 +1,6 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
+import { apiFetch } from "../api/api.js";
 
 requireAuth("admin");
 
@@ -132,12 +133,6 @@ renderLayout("Product", `
 
 `);
 
-const token = localStorage.getItem("token");
-
-const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`
-};
 
 // ===============================
 // API
@@ -178,11 +173,19 @@ async function loadCategories() {
 
     try {
 
-        const response = await fetch(CATEGORY_API, {
-            headers
-        });
+        const response = await apiFetch(CATEGORY_API);
+
+        if (!response) return;
 
         const categories = await response.json();
+
+        if (!response.ok) {
+
+            alert(categories.message);
+
+            return;
+
+        }
 
         productCategory.innerHTML =
             `<option value="">Pilih Category</option>`;
@@ -213,11 +216,19 @@ async function loadSuppliers() {
 
     try {
 
-        const response = await fetch(SUPPLIER_API, { 
-            headers 
-        });
+        const response = await apiFetch(SUPPLIER_API);
+
+        if (!response) return;
 
         const suppliers = await response.json();
+
+        if (!response.ok) {
+
+            alert(suppliers.message);
+
+            return;
+
+        }
 
         productSupplier.innerHTML =
             `<option value="">Pilih Supplier</option>`;
@@ -248,11 +259,19 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch(PRODUCT_API, {
-            headers
-        });
+        const response = await apiFetch(PRODUCT_API);
+
+        if (!response) return;
 
         const products = await response.json();
+
+        if (!response.ok) {
+
+            alert(products.message);
+
+            return;
+
+        }
         if (!Array.isArray(products)) {
 
             console.error(products);
@@ -328,15 +347,19 @@ async function saveProduct(e) {
             ? "PUT"
             : "POST";
 
-        const response = await fetch(url, {
+        const response = await apiFetch(url,{
 
             method,
 
-            headers,
+            headers:{
+                "Content-Type":"application/json"
+            },
 
-            body: JSON.stringify(product)
+            body:JSON.stringify(product)
 
         });
+
+        if(!response) return;
 
         const result = await response.json();
 
@@ -372,10 +395,17 @@ async function editProduct(id) {
 
     try {
 
-        const response = await fetch(`${PRODUCT_API}/${id}`, {
-            headers
-        });
+        const response = await apiFetch(`${PRODUCT_API}/${id}`);
+
+        if(!response) return;
         const product = await response.json();
+        if(!response.ok){
+
+            alert(product.message);
+
+            return;
+
+        }
 
         editingId = id;
 
@@ -407,13 +437,13 @@ async function deleteProduct(id) {
 
     try {
 
-        const response = await fetch(`${PRODUCT_API}/${id}`, {
+        const response = await apiFetch(`${PRODUCT_API}/${id}`,{
 
-            method:"DELETE",
-
-            headers
+            method:"DELETE"
 
         });
+
+        if(!response) return;
 
         const result = await response.json();
 

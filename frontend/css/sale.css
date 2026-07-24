@@ -1,0 +1,227 @@
+/* ===============================
+   Sales Layout
+=============================== */
+
+.sales-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+/* ===============================
+   Search
+=============================== */
+
+.search-box{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.search-box input{
+
+    flex:1;
+
+    padding:12px 15px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+.search-box button{
+
+    padding:12px 18px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.search-box button:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* ===============================
+   Card
+=============================== */
+
+.card{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+/* ===============================
+   Table
+=============================== */
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+}
+
+.table th{
+
+    background:#f3f4f6;
+
+    padding:14px;
+
+    text-align:left;
+
+}
+
+.table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f9fafb;
+
+}
+
+/* ===============================
+   Payment
+=============================== */
+
+.payment-box{
+
+    margin-left:auto;
+
+    width:360px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.payment-box div{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.payment-box label{
+
+    font-weight:bold;
+
+}
+
+.payment-box span{
+
+    font-weight:bold;
+
+    color:#2563eb;
+
+}
+
+.payment-box input{
+
+    width:180px;
+
+    padding:10px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    text-align:right;
+
+}
+
+/* ===============================
+   Button
+=============================== */
+
+#saveSale{
+
+    width:100%;
+
+    margin-top:10px;
+
+    padding:14px;
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+#saveSale:hover{
+
+    background:#15803d;
+
+}
+
+/* ===============================
+   Empty Cart
+=============================== */
+
+.empty-cart{
+
+    text-align:center;
+
+    color:#6b7280;
+
+    padding:30px;
+
+}

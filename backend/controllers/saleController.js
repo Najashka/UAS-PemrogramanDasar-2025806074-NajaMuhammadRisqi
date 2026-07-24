@@ -1,5 +1,6 @@
 import SaleModel from "../models/saleModel.js";
 import SaleDetailModel from "../models/saleDetailModel.js";
+import ProductModel from "../models/productModel.js";
 
 const SalesController = {
 
@@ -83,6 +84,10 @@ const SalesController = {
                     price: item.price,
                     subtotal: item.subtotal
                 });
+                await ProductModel.reduceStock(
+                    item.product_id,
+                    item.quantity
+                );
 
             }
 
