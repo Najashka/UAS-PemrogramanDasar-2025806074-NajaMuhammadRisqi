@@ -72,6 +72,35 @@ renderLayout("Sales History", `
 
 </div>
 
+<!-- Detail Modal -->
+
+<div id="saleModal" class="modal">
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h3>Detail Penjualan</h3>
+
+            <button id="closeModal">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div id="saleDetail">
+
+
+        </div>
+
+
+    </div>
+
+</div>
 
 `);
 
@@ -89,7 +118,45 @@ const SALES_API = "/api/sales";
 
 const saleHistoryTable =
     document.getElementById("saleHistoryTable");
+const saleModal =
+    document.getElementById("saleModal");
+const saleDetail =
+    document.getElementById("saleDetail");
+const closeModal =
+    document.getElementById("closeModal");
+const searchSale =
+    document.getElementById("searchSale");
 
+// ===============================
+// Helper
+// ===============================
+
+function formatDate(date) {
+
+    return new Date(date).toLocaleDateString("id-ID", {
+
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+
+    });
+
+}
+
+function formatCurrency(value) {
+
+    return `Rp ${Number(value).toLocaleString("id-ID")}`;
+
+}
+
+function formatStatus(status) {
+
+    return status.charAt(0).toUpperCase() +
+        status.slice(1).toLowerCase();
+
+}
+
+let salesData = [];
 
 // ===============================
 // Load Sales History
@@ -97,19 +164,13 @@ const saleHistoryTable =
 
 async function loadSalesHistory() {
 
-
     try {
-
 
         const response = await apiFetch(SALES_API);
 
-
         if (!response) return;
 
-
         const sales = await response.json();
-
-
 
         if (!response.ok) {
 
@@ -119,78 +180,296 @@ async function loadSalesHistory() {
 
         }
 
+        salesData = sales;
 
+        renderSalesTable(salesData);
 
-        saleHistoryTable.innerHTML = "";
-
-
-
-        sales.forEach((sale, index) => {
-
-
-            saleHistoryTable.innerHTML += `
-
-            <tr>
-
-
-                <td>${index + 1}</td>
-
-
-                <td>${sale.customer}</td>
-
-
-                <td>
-                    ${new Date(sale.sale_date)
-                    .toLocaleDateString("id-ID")}
-                </td>
-
-
-                <td>
-                    ${sale.payment_method}
-                </td>
-
-
-                <td>
-                    ${sale.status}
-                </td>
-
-
-                <td>
-                    Rp ${Number(sale.total)
-                    .toLocaleString("id-ID")}
-                </td>
-
-
-                <td>
-
-                    <button>
-                        Detail
-                    </button>
-
-                </td>
-
-
-            </tr>
-
-
-            `;
-
-
-        });
-
-
-
-    } catch(error) {
-
+    } catch (error) {
 
         console.error(error);
 
-
     }
-
 
 }
 
+function renderSalesTable(data) {
 
+    saleHistoryTable.innerHTML = "";
+
+    if (data.length === 0) {
+
+        saleHistoryTable.innerHTML = `
+
+            <tr>
+
+                <td colspan="7" style="text-align:center">
+
+                    Data tidak ditemukan
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+    data.forEach((sale, index) => {
+
+        saleHistoryTable.innerHTML += `
+
+        <tr>
+
+            <td>${index + 1}</td>
+
+            <td>${sale.customer}</td>
+
+            <td>${formatDate(sale.sale_date)}</td>
+
+            <td>${sale.payment_method}</td>
+
+            <td>
+
+                <span class="status ${sale.status.toLowerCase()}">
+
+                    ${formatStatus(sale.status)}
+
+                </span>
+
+            </td>
+
+            <td class="total-column">
+
+                ${formatCurrency(sale.total)}
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-detail"
+                    onclick="detailSale(${sale.id})">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    Detail
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+// ===============================
+// Detail Sale
+// ===============================
+
+async function detailSale(id) {
+
+
+    try {
+
+
+        const response =
+            await apiFetch(`${SALES_API}/${id}`);
+
+
+
+        if(!response) return;
+
+
+
+        const data =
+            await response.json();
+
+
+
+        if(!response.ok){
+
+            alert(data.message);
+
+            return;
+
+        }
+
+
+
+        const sale = data.sale;
+
+        const details = data.details;
+
+
+
+        saleDetail.innerHTML = `
+
+        <div class="detail-info">
+
+            <div>
+
+                <strong>Customer</strong>
+
+                <p>${sale.customer}</p>
+
+            </div>
+
+            <div>
+
+                <p>${formatDate(sale.sale_date)}</p>
+
+                <p>
+                    ${new Date(sale.sale_date).toLocaleDateString("id-ID")}
+                </p>
+
+            </div>
+
+            <div>
+
+                <strong>Pembayaran</strong>
+
+                <p>${sale.payment_method}</p>
+
+            </div>
+
+            <div>
+
+                <strong>Status</strong>
+
+                <p>
+
+                    <span class="status ${sale.status.toLowerCase()}">
+                        ${formatStatus(sale.status)}
+                    </span>
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th>Qty</th>
+
+                    <th>Harga</th>
+
+                    <th>Subtotal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${details.map(item => `
+
+                    <tr>
+
+                        <td>${item.product_name}</td>
+
+                        <td>${item.quantity}</td>
+
+                        <td>
+                            ${formatCurrency(item.price)}
+                        </td>
+
+                        <td>
+                            ${formatCurrency(item.subtotal)}
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+        <div class="total-box">
+
+            <span>Total Pembayaran</span>
+
+            <span>
+
+                ${formatCurrency(sale.total)}
+
+            </span>
+
+        </div>
+
+        `;
+
+
+
+        saleModal.style.display = "flex";
+
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
 
 loadSalesHistory();
+closeModal.addEventListener("click",()=>{
+
+    saleModal.style.display = "none";
+
+});
+searchSale.addEventListener("keyup", () => {
+
+    const keyword = searchSale.value
+        .toLowerCase()
+        .trim();
+
+    const filtered = salesData.filter(sale =>
+
+        sale.customer
+            .toLowerCase()
+            .includes(keyword)
+
+    );
+
+    renderSalesTable(filtered);
+
+});
+saleModal.addEventListener("click", (e) => {
+
+    if (e.target === saleModal) {
+
+        saleModal.style.display = "none";
+
+    }
+
+});
+document.addEventListener("keydown", (e) => {
+
+    if (
+
+        e.key === "Escape" &&
+
+        saleModal.style.display === "flex"
+
+    ) {
+
+        saleModal.style.display = "none";
+
+    }
+
+});
+window.detailSale = detailSale;
