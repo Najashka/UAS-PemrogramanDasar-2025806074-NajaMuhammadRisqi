@@ -1,0 +1,37 @@
+:root{
+
+    /* Color */
+
+    --primary:#2563eb;
+    --primary-hover:#1d4ed8;
+
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --info:#0ea5e9;
+
+    --gray-100:#f8fafc;
+    --gray-200:#e5e7eb;
+    --gray-300:#d1d5db;
+    --gray-500:#6b7280;
+    --gray-700:#374151;
+    --gray-900:#111827;
+
+    --white:#ffffff;
+
+    /* Radius */
+
+    --radius-sm:6px;
+    --radius-md:10px;
+    --radius-lg:16px;
+
+    /* Shadow */
+
+    --shadow-sm:0 2px 8px rgba(0,0,0,.08);
+    --shadow-md:0 8px 24px rgba(0,0,0,.12);
+
+    /* Transition */
+
+    --transition:.2s ease;
+
+}

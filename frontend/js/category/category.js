@@ -1,6 +1,11 @@
 import { requireAuth } from "../auth/guard.js";
 import { renderLayout } from "../layout/layout.js";
 import { apiFetch } from "../api/api.js";
+import { showToast } from "../utils/toast.js";
+import {
+    showLoading,
+    hideLoading
+} from "../utils/loading.js";
 
 
 requireAuth("admin");
@@ -11,53 +16,92 @@ renderLayout("Category", `
 
     <h2>Category</h2>
 
+    <button
+        id="openModal"
+        class="btn btn-primary">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Tambah Category
+
+    </button>
+
 </div>
 
 <div class="card">
 
-    <h3>Tambah Category</h3>
-
-    <form id="categoryForm">
+    <div class="table-header">
 
         <input
-            id="categoryName"
-            type="text"
-            placeholder="Nama Category"
-            required>
+            id="searchCategory"
+            class="search-input"
+            placeholder="Cari Category">
 
-        <button type="submit">
+        <table class="table">
 
-            Tambah
+            <thead>
 
-        </button>
+                <tr>
 
-    </form>
+                    <th>No</th>
+                    <th>Nama Category</th>
+                    <th width="150">Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="categoryTable">
+
+            </tbody>
+
+        </table>
 
 </div>
 
-<div class="card">
+<div
+    id="categoryModal"
+    class="modal">
 
-    <h3>Daftar Category</h3>
+    <div class="modal-content">
 
-    <table class="table">
+        <div class="modal-header">
 
-        <thead>
+            <h3 id="modalTitle">
 
-            <tr>
+                Tambah Category
 
-                <th>ID</th>
+            </h3>
 
-                <th>Nama</th>
+            <button
+                id="closeModal"
+                class="modal-close">
 
-                <th width="150">Aksi</th>
+                <i class="fa-solid fa-xmark"></i>
 
-            </tr>
+            </button>
 
-        </thead>
+        </div>
 
-        <tbody id="categoryTable"></tbody>
+        <form id="categoryForm">
 
-    </table>
+            <label>Nama Category</label>
+
+            <input
+                id="categoryName"
+                required>
+
+            <button
+                class="btn btn-primary"
+                type="submit">
+
+                Simpan
+
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
@@ -65,9 +109,22 @@ renderLayout("Category", `
 
 const API_URL = "/api/categories";
 
-const categoryForm = document.getElementById("categoryForm");
-const categoryName = document.getElementById("categoryName");
-const categoryTable = document.getElementById("categoryTable");
+const categoryForm = 
+    document.getElementById("categoryForm");
+const categoryName = 
+    document.getElementById("categoryName");
+const categoryTable = 
+    document.getElementById("categoryTable");
+const categoryModal =
+    document.getElementById("categoryModal");
+const openModal =
+    document.getElementById("openModal");
+const closeModal =
+    document.getElementById("closeModal");
+const modalTitle =
+    document.getElementById("modalTitle");
+const submitButton =
+    categoryForm.querySelector("button");
 
 let editingId = null;
 
@@ -77,19 +134,32 @@ function createRow(category) {
             <td>${category.id}</td>
             <td>${category.name}</td>
             <td class="action-buttons">
-                <button class="btn-edit" data-id="${category.id}">
-                    Edit
+
+                <button
+                    class="btn btn-warning btn-sm btn-edit"
+                    data-id="${category.id}">
+
+                    <i class="fa-solid fa-pen"></i>
+
                 </button>
 
-                <button class="btn-delete" data-id="${category.id}">
-                    Hapus
+                <button
+                    class="btn btn-danger btn-sm btn-delete"
+                    data-id="${category.id}">
+
+                    <i class="fa-solid fa-trash"></i>
+
                 </button>
+
             </td>
         </tr>
     `;
 }
 
 async function loadCategories() {
+
+    showLoading();
+
     try {
 
         const response = await apiFetch(API_URL);
@@ -102,17 +172,25 @@ async function loadCategories() {
 
         const categories = await response.json();
 
-        categoryTable.innerHTML = "";
-
-        categories.forEach(category => {
-            categoryTable.innerHTML += createRow(category);
-        });
+        categoryTable.innerHTML = categories
+            .map(createRow)
+            .join("");
 
     } catch (error) {
 
         console.error(error);
 
+        showToast(
+            "Gagal mengambil data category",
+            "error"
+        );
+
+    } finally {
+
+        hideLoading();
+
     }
+
 }
 
 async function addCategory(event) {
@@ -122,9 +200,14 @@ async function addCategory(event) {
     const name = categoryName.value.trim();
 
     if (name === "") {
-        alert("Nama category harus diisi!");
+
+        showToast("Nama category harus diisi!", "warning");
+
         return;
+
     }
+
+    showLoading();
 
     try {
 
@@ -152,16 +235,22 @@ async function addCategory(event) {
 
         if (!response) return;
 
+        const result = await response.json();
+
         if (!response.ok) {
-            throw new Error("Gagal menambah category");
+
+            throw new Error(result.message);
+
         }
 
-        categoryForm.reset();
+        showToast(
+            editingId
+                ? "Category berhasil diperbarui"
+                : "Category berhasil ditambahkan",
+            "success"
+        );
 
-        editingId = null;
-
-        categoryForm.querySelector("button").textContent =
-            "Tambah";
+        hideModal();
 
         await loadCategories();
 
@@ -169,7 +258,11 @@ async function addCategory(event) {
 
         console.error(error);
 
-        alert("Terjadi kesalahan.");
+        showToast(error.message, "error");
+
+    } finally {
+
+        hideLoading();
 
     }
 
@@ -183,6 +276,8 @@ async function deleteCategory(id) {
 
     if (!confirmDelete) return;
 
+    showLoading();
+
     try {
 
         const response = await apiFetch(`${API_URL}/${id}`, {
@@ -193,11 +288,18 @@ async function deleteCategory(id) {
 
         if (!response) return;
 
+        const result = await response.json();
+
         if (!response.ok) {
 
-            throw new Error("Gagal menghapus category");
+            throw new Error(result.message);
 
         }
+
+        showToast(
+            "Category berhasil dihapus",
+            "success"
+        );
 
         await loadCategories();
 
@@ -205,13 +307,22 @@ async function deleteCategory(id) {
 
         console.error(error);
 
-        alert("Terjadi kesalahan.");
+        showToast(
+            error.message,
+            "error"
+        );
+
+    } finally {
+
+        hideLoading();
 
     }
 
 }
 
 async function editCategory(id) {
+
+    showLoading();
 
     try {
 
@@ -221,12 +332,24 @@ async function editCategory(id) {
 
         const category = await response.json();
 
-        categoryName.value = category.name;
+        if (!response.ok) {
+
+            throw new Error(category.message);
+
+        }
 
         editingId = id;
 
-        categoryForm.querySelector("button").textContent =
-            "Update";
+        categoryName.value = category.name;
+
+        modalTitle.textContent = "Edit Category";
+
+        submitButton.innerHTML = `
+            <i class="fa-solid fa-floppy-disk"></i>
+            Update
+        `;
+
+        showModal();
 
         categoryName.focus();
 
@@ -234,13 +357,21 @@ async function editCategory(id) {
 
         console.error(error);
 
+        showToast(error.message, "error");
+
+    } finally {
+
+        hideLoading();
+
     }
 
 }
 
 function handleTableClick(event) {
 
-    const button = event.target;
+    const button = event.target.closest("button");
+
+    if (!button) return;
 
     const id = button.dataset.id;
 
@@ -274,4 +405,58 @@ function init() {
 
 }
 
+
+function showModal() {
+
+    categoryModal.classList.add("show");
+
+}
+
+function hideModal() {
+
+    categoryModal.classList.remove("show");
+
+    categoryForm.reset();
+
+    editingId = null;
+
+    modalTitle.textContent = "Tambah Category";
+
+    submitButton.innerHTML = `
+        <i class="fa-solid fa-plus"></i>
+        Simpan
+    `;
+
+}
+
 init();
+
+openModal.addEventListener(
+    "click",
+    showModal
+);
+
+closeModal.addEventListener(
+    "click",
+    hideModal
+);
+
+categoryModal.addEventListener("click", (event) => {
+
+    if (event.target === categoryModal) {
+
+        hideModal();
+
+    }
+
+});
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+
+        hideModal();
+
+    }
+
+});

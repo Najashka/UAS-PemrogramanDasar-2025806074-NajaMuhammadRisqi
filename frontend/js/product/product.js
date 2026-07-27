@@ -66,12 +66,10 @@ renderLayout("Product", `
 
                 <label>Stock</label>
 
-                <input
-                    type="number"
-                    id="productStock"
-                    required>
-
-            </div>
+                    <input
+                        type="number"
+                        id="productStock"
+                        required>
 
         </div>
 
@@ -95,6 +93,7 @@ renderLayout("Product", `
 
         <input
             id="searchProduct"
+            class="search-input"
             placeholder="Cari Product">
 
     </div>
@@ -147,17 +146,24 @@ const SUPPLIER_API = "/api/suppliers";
 // DOM
 // ===============================
 
-const productForm = document.getElementById("productForm");
-
-const submitButton = productForm.querySelector("button[type='submit']");
-
-const productName = document.getElementById("productName");
-const productCategory = document.getElementById("categorySelect");
-const productSupplier = document.getElementById("supplierSelect");
-const productPrice = document.getElementById("productPrice");
-const productStock = document.getElementById("productStock");
-
-const productTable = document.getElementById("productTable");
+const productForm = 
+    document.getElementById("productForm");
+const submitButton = 
+    productForm.querySelector("button[type='submit']");
+const productName = 
+    document.getElementById("productName");
+const productCategory = 
+    document.getElementById("categorySelect");
+const productSupplier = 
+    document.getElementById("supplierSelect");
+const productPrice =
+    document.getElementById("productPrice");
+const productStock = 
+    document.getElementById("productStock");
+const productTable = 
+    document.getElementById("productTable");
+const searchProduct =
+    document.getElementById("searchProduct");
 
 
 // ===============================
@@ -291,10 +297,39 @@ async function loadProducts() {
                     <td>${product.category}</td>
                     <td>${product.supplier}</td>
                     <td>Rp ${Number(product.price).toLocaleString("id-ID")}</td>
-                    <td>${product.stock}</td>
                     <td>
-                        <button onclick="editProduct(${product.id})">Edit</button>
-                        <button onclick="deleteProduct(${product.id})">Delete</button>
+
+                        <span class="${
+                            product.stock <= 5
+                                ? "stock-low"
+                                : "stock-normal"
+                        }">
+
+                            ${product.stock}
+
+                        </span>
+
+                    </td>
+                    <td class="action-column">
+
+                        <button
+                            class="btn-warning"
+                            onclick="editProduct(${product.id})">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit
+
+                        </button>
+
+                        <button
+                            class="btn-danger"
+                            onclick="deleteProduct(${product.id})">
+
+                            <i class="fa-solid fa-trash"></i>
+                            Delete
+
+                        </button>
+
                     </td>
                 </tr>
             `;
@@ -316,6 +351,7 @@ async function loadProducts() {
 async function saveProduct(e) {
 
     e.preventDefault();
+
 
     const product = {
         category_id: productCategory.value,
@@ -373,7 +409,13 @@ async function saveProduct(e) {
 
         editingId = null;
 
-        submitButton.textContent = "Tambah";
+        submitButton.innerHTML = `
+
+        <i class="fa-solid fa-plus"></i>
+
+        Tambah Product
+
+        `;
 
         loadProducts();
 
@@ -415,7 +457,13 @@ async function editProduct(id) {
         productPrice.value = product.price;
         productStock.value = product.stock;
 
-        submitButton.textContent = "Update";
+        submitButton.innerHTML = `
+
+        <i class="fa-solid fa-floppy-disk"></i>
+
+        Update Product
+
+        `;
 
     } catch (error) {
 
@@ -469,3 +517,23 @@ loadProducts();
 
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
+
+searchProduct.addEventListener("input", e => {
+
+    const keyword =
+        e.target.value.toLowerCase();
+
+    document
+        .querySelectorAll("#productTable tr")
+        .forEach(row => {
+
+            row.style.display =
+                row.textContent
+                    .toLowerCase()
+                    .includes(keyword)
+                    ? ""
+                    : "none";
+
+        });
+
+});
