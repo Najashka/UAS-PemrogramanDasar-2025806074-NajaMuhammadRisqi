@@ -49,29 +49,50 @@ const SaleModel = {
     // ===============================
     async create(data) {
 
-        const {
-            customer_id,
-            total,
-            payment_method,
-            status
-        } = data;
+    const {
 
-        const [result] = await db.query(`
-            INSERT INTO sales (
-                customer_id,
-                total,
-                payment_method,
-                status
-            )
-            VALUES (?, ?, ?, ?)
-        `, [
-            customer_id,
-            total,
-            payment_method,
-            status
-        ]);
+        customer_id,
 
-        return result.insertId;
+        total,
+
+        payment,
+
+        change_amount,
+
+        payment_method,
+
+        status
+
+    } = data;
+
+    const [result] = await db.query(`
+        INSERT INTO sales (
+
+            customer_id,
+
+            total,
+
+            payment,
+
+            change_amount,
+
+            payment_method,
+
+            status
+
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?)
+    `, [
+        customer_id,
+        total,
+        payment,
+        change_amount,
+        payment_method,
+        status
+    ]);
+
+    return result.insertId;
 
     },
 

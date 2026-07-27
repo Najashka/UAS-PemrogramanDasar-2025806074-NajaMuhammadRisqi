@@ -15,12 +15,13 @@ const SalesController = {
 
             res.json(sales);
 
-        } catch (error) {
+        }catch (error) {
 
+            console.error("CREATE SALE ERROR:");
             console.error(error);
 
             res.status(500).json({
-                message: "Failed to get sales"
+                message: error.message
             });
 
         }
