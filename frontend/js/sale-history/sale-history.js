@@ -246,7 +246,7 @@ function renderSalesTable(data) {
 
             </td>
 
-            <td>
+            <td class="action-column">
 
                 <button
                     class="btn-detail"
@@ -255,6 +255,16 @@ function renderSalesTable(data) {
                     <i class="fa-solid fa-eye"></i>
 
                     Detail
+
+                </button>
+
+                <button
+                    class="btn-print"
+                    onclick="printSale(${sale.id})">
+
+                    <i class="fa-solid fa-print"></i>
+
+                    Print
 
                 </button>
 
@@ -378,7 +388,7 @@ async function detailSale(id) {
 
                     <tr>
 
-                        <td>${item.product_name}</td>
+                        <td>${item.product}</td>
 
                         <td>${item.quantity}</td>
 
@@ -422,6 +432,19 @@ async function detailSale(id) {
         console.error(error);
 
     }
+
+}
+
+// ===============================
+// PRINT SALE
+// ===============================
+
+function printSale(id) {
+
+    window.open(
+        `/pages/receipt.html?id=${id}`,
+        "_blank"
+    );
 
 }
 
@@ -473,3 +496,4 @@ document.addEventListener("keydown", (e) => {
 
 });
 window.detailSale = detailSale;
+window.printSale = printSale;

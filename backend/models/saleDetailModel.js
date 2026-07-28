@@ -12,7 +12,7 @@ const SaleDetailModel = {
                 sale_details.id,
                 sale_details.sale_id,
                 sale_details.product_id,
-                products.name AS product_name,
+                products.name AS product,
                 sale_details.quantity,
                 sale_details.price,
                 sale_details.subtotal

@@ -6,145 +6,380 @@ requireAuth("admin");
 
 renderLayout("Dashboard", `
 
-<div class="dashboard-cards">
+<div class="dashboard">
 
-    <div class="card">
+    <div class="dashboard-header">
 
-        <h3>Total Product</h3>
+        <h2>Dashboard</h2>
 
-        <h2 id="totalProduct">0</h2>
-
-    </div>
-
-    <div class="card">
-
-        <h3>Total Customer</h3>
-
-        <h2 id="totalCustomer">0</h2>
+        <p>Selamat datang di Sales Inventory System</p>
 
     </div>
 
-    <div class="card">
+    <div class="dashboard-cards">
 
-        <h3>Total Supplier</h3>
+        <div class="dashboard-card">
 
-        <h2 id="totalSupplier">0</h2>
+            <div class="card-icon sales">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+
+            <div>
+
+                <h4>Penjualan Hari Ini</h4>
+
+                <h2 id="todaySales">
+                    Rp0
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <div class="card-icon transaction">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+
+            <div>
+
+                <h4>Transaksi Hari Ini</h4>
+
+                <h2 id="todayTransactions">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <div class="card-icon product">
+                <i class="fa-solid fa-box"></i>
+            </div>
+
+            <div>
+
+                <h4>Total Produk</h4>
+
+                <h2 id="totalProducts">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <div class="card-icon customer">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div>
+
+                <h4>Total Customer</h4>
+
+                <h2 id="totalCustomers">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="card">
+    <div class="chart-card">
 
-        <h3>Sales Today</h3>
+        <h3>
 
-        <h2 id="salesToday">Rp 0</h2>
+            Penjualan 7 Hari Terakhir
+
+        </h3>
+
+        <canvas id="salesChart"></canvas>
 
     </div>
+    <div class="dashboard-bottom">
+        <div class="best-product-card">
 
-</div>
+            <h3>
 
-<div class="table-card">
+                <i class="fa-solid fa-trophy"></i>
 
-    <h3>Recent Transactions</h3>
+                Produk Terlaris
 
-    <br>
+            </h3>
 
-    <table width="100%">
+            <div id="bestProducts">
 
-        <thead>
+            </div>
 
-            <tr>
+        </div>
 
-                <th>ID</th>
+        <div class="recent-sales-card">
 
-                <th>Customer</th>
+            <h3>
 
-                <th>Total</th>
+                <i class="fa-solid fa-clock-rotate-left"></i>
 
-            </tr>
+                Transaksi Terbaru
 
-        </thead>
+            </h3>
 
-        <tbody id="recentSales">
+            <div id="recentSales"></div>
 
-            <tr>
-
-                <td colspan="3">
-
-                    Belum ada transaksi
-
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
-
+        </div>
+    </div>
 </div>
 
 `);
 
+const todaySales =
+    document.getElementById("todaySales");
 
+const todayTransactions =
+    document.getElementById("todayTransactions");
+
+const totalProducts =
+    document.getElementById("totalProducts");
+
+const totalCustomers =
+    document.getElementById("totalCustomers");
+
+const bestProducts =
+    document.getElementById("bestProducts");
+    
+const recentSales =
+    document.getElementById("recentSales");
+
+loadDashboard();
 
 async function loadDashboard() {
 
     try {
 
-        const [
-            productRes,
-            customerRes,
-            supplierRes,
-            saleRes
-        ] = await Promise.all([
+        const response =
+            await apiFetch("/api/dashboard");
 
-            apiFetch("/api/products"),
-            apiFetch("/api/customers"),
-            apiFetch("/api/suppliers"),
-            apiFetch("/api/sales")
+        if (!response) return;
 
-        ]);
+        const data =
+            await response.json();
 
-        if (
-            !productRes ||
-            !customerRes ||
-            !supplierRes ||
-            !saleRes
-        ) {
-            return;
+        renderChart(data.weeklySales);
+        renderBestProducts(data.bestProducts);
+        renderRecentSales(data.recentSales);
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message
+            );
+
         }
 
-        const products = await productRes.json();
-        const customers = await customerRes.json();
-        const suppliers = await supplierRes.json();
-        const sales = await saleRes.json();
+        todaySales.textContent =
+            formatRupiah(data.todaySales);
 
-        document.getElementById("totalProduct").textContent =
-            products.length;
+        todayTransactions.textContent =
+            data.todayTransactions;
 
-        document.getElementById("totalCustomer").textContent =
-            customers.length;
+        totalProducts.textContent =
+            data.totalProducts;
 
-        document.getElementById("totalSupplier").textContent =
-            suppliers.length;
+        totalCustomers.textContent =
+            data.totalCustomers;
 
-        const today = new Date().toISOString().split("T")[0];
+    } catch (error) {
 
-        const todaySales = sales.filter(sale =>
-            sale.sale_date.startsWith(today)
-        );
-
-        const total = todaySales.reduce((sum, sale) =>
-            sum + Number(sale.total), 0);
-
-        document.getElementById("salesToday").textContent =
-            "Rp " + total.toLocaleString("id-ID");
-
-    } catch (err) {
-
-        console.error(err);
+        console.error(error);
 
     }
 
 }
 
-loadDashboard();
+function renderChart(weeklySales){
+
+    const labels = weeklySales.map(item =>
+
+        new Date(item.date).toLocaleDateString(
+
+            "id-ID",
+
+            {
+
+                day:"2-digit",
+
+                month:"short"
+
+            }
+
+        )
+
+    );
+
+    const totals = weeklySales.map(item =>
+
+        Number(item.total)
+
+    );
+
+    new Chart(
+
+        document.getElementById("salesChart"),
+
+        {
+
+            type:"line",
+
+            data:{
+
+                labels,
+
+                datasets:[{
+
+                    label:"Penjualan",
+
+                    data:totals,
+
+                    borderWidth:3,
+
+                    tension:.3,
+
+                    fill:false
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                plugins:{
+
+                    legend:{
+
+                        display:false
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+}
+
+function renderBestProducts(products){
+
+    bestProducts.innerHTML = "";
+
+    const medal = [
+
+        "🥇",
+
+        "🥈",
+
+        "🥉"
+
+    ];
+
+    products.forEach((product,index)=>{
+
+        bestProducts.innerHTML += `
+
+        <div class="best-item">
+
+            <div class="best-rank">
+
+                <span>
+
+                    ${medal[index] ?? index + 1}
+
+                </span>
+
+                <span>
+
+                    ${product.name}
+
+                </span>
+
+            </div>
+
+            <div class="best-count">
+
+                ${product.sold} Terjual
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function renderRecentSales(sales = []) {
+
+    if (!sales.length) {
+
+        recentSales.innerHTML = `
+            <p>Belum ada transaksi.</p>
+        `;
+
+        return;
+
+    }
+
+    recentSales.innerHTML = sales.map(sale => `
+
+        <div class="recent-item">
+
+            <div>
+
+                <strong>#${sale.id}</strong>
+
+                <div>${sale.customer}</div>
+
+            </div>
+
+            <div class="recent-total">
+
+                ${formatRupiah(sale.total)}
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+function formatRupiah(number) {
+
+    return new Intl.NumberFormat(
+
+        "id-ID",
+
+        {
+
+            style: "currency",
+
+            currency: "IDR",
+
+            minimumFractionDigits: 0
+
+        }
+
+    ).format(number);
+
+}

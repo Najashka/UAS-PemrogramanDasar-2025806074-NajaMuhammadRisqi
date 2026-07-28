@@ -852,6 +852,13 @@ async function processPayment() {
 
         );
 
+        setTimeout(() => {
+
+        location.href =
+            `/pages/receipt.html?id=${result.saleId}&print=true`;
+
+        }, 500);
+
         closePaymentModal();
 
         resetSale();
