@@ -1,27 +1,153 @@
 import db from "../config/db.js";
 
-class UserModel {
+const UserModel = {
 
-    static async getByUsername(username) {
+    // ===============================
+    // GET ALL
+    // ===============================
+    async getAll() {
 
-        const [rows] = await db.execute(
-            "SELECT * FROM users WHERE username = ?",
-            [username]
-        );
+        const [rows] = await db.query(`
+            SELECT
+                id,
+                name,
+                username,
+                role,
+                status,
+                created_at
+            FROM users
+            ORDER BY id DESC
+        `);
 
-        return rows[0];
-    }
+        return rows;
 
-    static async getById(id) {
+    },
 
-        const [rows] = await db.execute(
-            "SELECT id, name, username, role FROM users WHERE id = ?",
+    // ===============================
+    // GET BY ID
+    // ===============================
+    async getById(id) {
+
+        const [rows] = await db.query(
+            `
+            SELECT
+                id,
+                name,
+                username,
+                role,
+                status
+            FROM users
+            WHERE id = ?
+            `,
             [id]
         );
 
         return rows[0];
+
+    },
+
+    // ===============================
+    // CREATE
+    // ===============================
+    async create(data) {
+
+        const {
+            name,
+            username,
+            password,
+            role,
+            status
+        } = data;
+
+        const [result] = await db.query(
+            `
+            INSERT INTO users
+            (
+                name,
+                username,
+                password,
+                role,
+                status
+            )
+            VALUES (?, ?, ?, ?, ?)
+            `,
+            [
+                name,
+                username,
+                password,
+                role,
+                status
+            ]
+        );
+
+        return result.insertId;
+
+    },
+
+    // ===============================
+    // UPDATE
+    // ===============================
+    async update(id, data) {
+
+        const {
+            name,
+            username,
+            role,
+            status
+        } = data;
+
+        await db.query(
+            `
+            UPDATE users
+            SET
+                name=?,
+                username=?,
+                role=?,
+                status=?
+            WHERE id=?
+            `,
+            [
+                name,
+                username,
+                role,
+                status,
+                id
+            ]
+        );
+
+    },
+
+    // ===============================
+    // RESET PASSWORD
+    // ===============================
+    async resetPassword(id, password) {
+
+        await db.query(
+            `
+            UPDATE users
+            SET password=?
+            WHERE id=?
+            `,
+            [
+                password,
+                id
+            ]
+        );
+
+    },
+
+    // ===============================
+    // DELETE
+    // ===============================
+    async delete(id) {
+
+        await db.query(
+            "DELETE FROM users WHERE id=?",
+            [id]
+        );
+
     }
 
-}
+};
 
 export default UserModel;

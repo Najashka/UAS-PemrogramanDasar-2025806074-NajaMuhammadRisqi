@@ -1,0 +1,301 @@
+/* ===============================
+   REPORT PAGE
+================================= */
+
+.report-page{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+/* ===============================
+   FILTER
+================================= */
+
+.report-filter{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:end;
+
+    flex-wrap:wrap;
+
+    background:#fff;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.filter-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.filter-group label{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#666;
+
+}
+
+.filter-group input{
+
+    width:180px;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:14px;
+
+}
+
+/* ===============================
+   BUTTON
+================================= */
+
+#filterBtn{
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    font-weight:600;
+
+}
+
+#filterBtn:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* ===============================
+   SUMMARY
+================================= */
+
+.report-summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+}
+
+.summary-card{
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:16px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.summary-card h4{
+
+    color:#777;
+
+    margin-bottom:12px;
+
+    font-size:15px;
+
+}
+
+.summary-card h2{
+
+    color:#2563eb;
+
+    font-size:30px;
+
+    margin:0;
+
+}
+
+/* ===============================
+   TABLE
+================================= */
+
+.card{
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table th{
+
+    background:#f8fafc;
+
+    padding:14px;
+
+    text-align:left;
+
+}
+
+.table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f9fbff;
+
+}
+
+/* ===============================
+   STATUS
+================================= */
+
+.status{
+
+    display:inline-block;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.status.paid{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.status.pending{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+.status.cancel{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+/* ===============================
+   RESPONSIVE
+================================= */
+
+@media(max-width:768px){
+
+    .report-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .report-filter{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .filter-group input{
+
+        width:100%;
+
+    }
+
+}
+
+.report-action{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-bottom:20px;
+
+}
+
+.report-action button{
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+.report-action button:hover{
+
+    background:#1d4ed8;
+
+}

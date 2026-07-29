@@ -53,7 +53,7 @@ export function createSidebar() {
         {
             title: "Report",
             icon: "fa-solid fa-chart-column",
-            link: "#"
+            link: "report.html"
         },
 
         {
