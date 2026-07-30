@@ -10,16 +10,15 @@ perkamen.
 
 | Keterangan     | Detail                          |
 |----------------|----------------------------------|
-| Nama Mahasiswa | `[Isi nama lengkap kamu]`        |
-| NIM            | `[Isi NIM kamu]`                 |
-| Kelas          | `[Isi kelas kamu]`               |
-| Mata Kuliah    | `[Isi nama mata kuliah, jika ada]` |
+| Nama Mahasiswa | `Naja Muhammad Risqi`        |
+| NPM            | `2025806074`                 |
+| Prodi          | `Teknologi Informasi 2`               |
+| Mata Kuliah    | `Pemrograman Dasar` |
 
 ## 🎯 Tema Proyek
 
 **Sistem Point of Sale (Kasir) & Manajemen Inventori Toko**
 
-> `[Sesuaikan/lengkapi sesuai tema resmi yang diberikan dosen, misal: nama toko fiktif, studi kasus, dsb.]`
 
 ---
 
