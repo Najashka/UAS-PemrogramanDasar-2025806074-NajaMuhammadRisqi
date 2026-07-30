@@ -264,21 +264,20 @@ Base URL: `http://localhost:3000/api`
 
 ## 🖼️ Screenshot Aplikasi
 
-> `[Tempel screenshot aplikasi kamu di sini setelah dijalankan. Simpan gambar di folder mis. docs/screenshots/ lalu referensikan seperti contoh di bawah.]`
 
 | Halaman     | Screenshot                                      |
 |-------------|--------------------------------------------------|
-| Login       | `![Login](docs/screenshots/login.png)`            |
-| Dashboard   | `![Dashboard](docs/screenshots/dashboard.png)`    |
-| Product     | `![Product](docs/screenshots/product.png)`        |
-| Sales       | `![Sales](docs/screenshots/sales.png)`            |
-| Report      | `![Report](docs/screenshots/report.png)`          |
+| Login       | `![Login](frontend/ss/LOGIN.png)`            |
+| Dashboard   | `![Dashboard](frontend/ss/DASHBOARD.png)`    |
+| Product     | `![Product](frontend/ss/PRODUCTS.png)`        |
+| Sales       | `![Sales](frontend/ss/SALES.png)`            |
+| Report      | `![Report](frontend/ss/REPORT.png)`          |
 
 ---
 
 ## 🔗 Link Repository GitHub
 
-`[ISI_LINK_REPOSITORY_GITHUB_KAMU]`
+`https://github.com/Najashka/UAS-PemrogramanDasar-2025806074-NajaMuhammadRisqi.git`
 
 ---
 
