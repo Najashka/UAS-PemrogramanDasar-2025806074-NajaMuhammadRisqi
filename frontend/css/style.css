@@ -1,22 +1,27 @@
+/* Catatan: file ini sisa dari versi awal (di-load bersama layout.css
+   pada halaman Sale dan Report). Warnanya sudah diselaraskan supaya
+   tidak bentrok dengan tema Hogwarts di components.css. */
+
 .page-header{
     margin-bottom:30px;
 }
 
 .page-header h1{
     font-size:36px;
-    color:#1e293b;
+    color:#740001;
+    font-family:"Cinzel","Cinzel Decorative",Georgia,serif;
 }
 
 .page-header p{
-    color:#64748b;
+    color:#7B6A58;
     margin-top:8px;
 }
 
 .card{
-    background:white;
+    background:#FFFDF8;
     border-radius:12px;
     padding:25px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:0 8px 20px rgba(40,20,0,.1);
     margin-bottom:25px;
 }
 
@@ -34,26 +39,26 @@ label{
     display:block;
     margin-bottom:8px;
     font-weight:600;
-    color:#374151;
+    color:#5C4432;
 }
 
 input{
     width:100%;
     padding:12px;
-    border:1px solid #d1d5db;
+    border:1px solid #D9C7AE;
     border-radius:8px;
     font-size:15px;
 }
 
 input:focus{
     outline:none;
-    border-color:#2563eb;
+    border-color:#D3A625;
 }
 
 button{
-    background:#2563eb;
-    color:white;
-    border:none;
+    background:linear-gradient(135deg,#740001,#4d0000);
+    color:#F0C75E;
+    border:1px solid #946A1E;
     padding:12px 25px;
     border-radius:8px;
     cursor:pointer;
@@ -62,5 +67,6 @@ button{
 }
 
 button:hover{
-    background:#1d4ed8;
+    color:white;
+    box-shadow:0 8px 18px rgba(116,0,1,.3);
 }

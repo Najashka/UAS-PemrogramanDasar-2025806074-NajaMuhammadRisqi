@@ -81,4 +81,34 @@ const CustomerController = {
 
 };
 
+export async function deleteCustomer(req, res) {
+
+    try {
+
+        await Customer.delete(req.params.id);
+
+        res.json({
+            message: "Customer berhasil dihapus"
+        });
+
+    } catch (error) {
+
+        if (error.code === "ER_ROW_IS_REFERENCED_2") {
+
+            return res.status(400).json({
+                message: "Customer tidak dapat dihapus karena sudah memiliki transaksi."
+            });
+
+        }
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+
+    }
+
+}
+
 export default CustomerController;

@@ -1,129 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
+
 body{
 
     margin:0;
-
-    background:#ececec;
-
+    background:#e9e2d3;
     display:flex;
-
     justify-content:center;
-
     padding:30px;
-
-    font-family:Arial,sans-serif;
+    font-family:"EB Garamond", Georgia, serif;
+    color:#3C2B1F;
 
 }
 
 .receipt-paper{
 
     width:320px;
-
-    background:white;
-
+    background:#FFFDF8;
     padding:25px;
-
-    border-radius:12px;
-
+    border-radius:6px;
+    border:1px dashed #D3A625;
     box-shadow:0 5px 20px rgba(0,0,0,.15);
 
 }
 
 .receipt-paper h2{
-
     margin:0;
-
     text-align:center;
-
+    font-family:"Cinzel", serif;
+    color:#740001;
 }
 
 .receipt-paper p{
-
     text-align:center;
-
     margin:6px 0;
-
 }
 
 hr{
-
     border:none;
-
-    border-top:1px dashed #999;
-
+    border-top:1px dashed #946A1E;
     margin:18px 0;
-
 }
 
 .info div{
-
     display:flex;
-
     justify-content:space-between;
-
     margin-bottom:8px;
-
     font-size:14px;
-
 }
 
 .item{
-
     margin-bottom:15px;
-
 }
 
 .item-name{
-
     font-weight:bold;
-
 }
 
 .item-detail{
-
     display:flex;
-
     justify-content:space-between;
-
     font-size:14px;
-
 }
 
 .total{
-
     display:flex;
-
     justify-content:space-between;
-
     margin-bottom:10px;
-
     font-weight:bold;
-
+    color:#740001;
 }
 
 .thanks{
-
     margin-top:20px;
-
+    font-style:italic;
 }
 
 #printButton{
 
     width:100%;
-
     margin-top:20px;
-
     padding:12px;
-
-    border:none;
-
-    background:#2563eb;
-
-    color:white;
-
+    border:1px solid #946A1E;
+    background:linear-gradient(135deg,#740001,#4d0000);
+    color:#F0C75E;
     border-radius:8px;
-
     cursor:pointer;
+    font-family:"Cinzel", serif;
+    font-weight:600;
+    letter-spacing:.5px;
 
+}
+
+#printButton:hover{
+    box-shadow:0 8px 18px rgba(116,0,1,.3);
 }
 
 /* ==================================
@@ -133,77 +102,49 @@ hr{
 @media print {
 
     body {
-
         background: white;
-
         padding: 0;
-
         margin: 0;
-
     }
 
     .receipt-paper {
-
         width: 80mm;
-
         box-shadow: none;
-
         border-radius: 0;
-
+        border:none;
         padding: 0;
-
     }
 
     #printButton {
-
         display: none;
-
     }
 
 }
 
 .store{
-
     text-align:center;
-
     margin-bottom:15px;
-
 }
 
 .store h2{
-
     margin:0;
-
     font-size:24px;
-
 }
 
 .store small{
-
     display:block;
-
-    color:#666;
-
+    color:#7B6A58;
     margin-top:3px;
-
 }
 
 .footer{
-
     margin-top:20px;
-
     text-align:center;
-
 }
 
 .footer small{
-
-    color:#777;
-
+    color:#7B6A58;
     display:block;
-
     margin-top:6px;
-
     font-size:12px;
-
 }

@@ -34,11 +34,11 @@ export function requireAuth(...roles) {
 
         if (user.role === "cashier") {
 
-            location.href = "/pages/sale.html";
+            location.href = "/pages/sale/sale.html";
 
         } else {
 
-            location.href = "/pages/dashboard.html";
+            location.href = "/pages/dashboard/dashboard.html";
 
         }
 

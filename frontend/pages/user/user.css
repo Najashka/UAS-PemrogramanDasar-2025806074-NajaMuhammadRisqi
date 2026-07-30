@@ -1,0 +1,32 @@
+/* ==========================
+   USERS PAGE
+========================== */
+
+.role,
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.role.admin {
+    background: #F4E6C5;
+    color: #4d0000;
+}
+
+.role.cashier {
+    background: #E3EEDD;
+    color: #24522C;
+}
+
+.status.active {
+    background: #E3EEDD;
+    color: #24522C;
+}
+
+.status.inactive {
+    background: #F6E3E0;
+    color: #5e1414;
+}

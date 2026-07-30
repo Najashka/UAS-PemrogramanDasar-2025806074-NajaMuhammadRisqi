@@ -47,6 +47,25 @@ const UserModel = {
     },
 
     // ===============================
+    // GET BY USERNAME
+    // ===============================
+    async getByUsername(username) {
+
+        const [rows] = await db.query(
+            `
+            SELECT *
+            FROM users
+            WHERE username = ?
+            LIMIT 1
+            `,
+            [username]
+        );
+
+        return rows[0];
+
+    },
+
+    // ===============================
     // CREATE
     // ===============================
     async create(data) {

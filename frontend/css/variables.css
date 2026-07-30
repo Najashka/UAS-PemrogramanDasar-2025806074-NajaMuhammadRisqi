@@ -1,37 +1,79 @@
+/* ============================================================
+   HOGWARTS THEME — VARIABLES
+   Gryffindor maroon + Hogwarts gold, di atas kertas perkamen.
+============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+
 :root{
 
-    /* Color */
+    /* ===== Fonts ===== */
+    --font-heading:"Cinzel", "Cinzel Decorative", Georgia, serif;
+    --font-display:"Cinzel Decorative", "Cinzel", Georgia, serif;
+    --font-body:"EB Garamond", Georgia, "Times New Roman", serif;
 
-    --primary:#2563eb;
-    --primary-hover:#1d4ed8;
+    /* ===== Brand: Gryffindor maroon & Hogwarts gold ===== */
+    --primary:#740001;
+    --primary-hover:#4d0000;
+    --primary-light:#9c2b2b;
 
-    --success:#16a34a;
-    --warning:#f59e0b;
-    --danger:#dc2626;
-    --info:#0ea5e9;
+    --gold:#D3A625;
+    --gold-bright:#F0C75E;
+    --gold-deep:#946A1E;
 
-    --gray-100:#f8fafc;
-    --gray-200:#e5e7eb;
-    --gray-300:#d1d5db;
-    --gray-500:#6b7280;
-    --gray-700:#374151;
-    --gray-900:#111827;
+    /* ===== House accents ===== */
+    --slytherin-green:#1A472A;
+    --slytherin-green-deep:#0d2818;
+    --ravenclaw-blue:#2C4A7C;
+    --ravenclaw-blue-deep:#1c3153;
+    --hufflepuff-gold:#D9B45C;
 
-    --white:#ffffff;
+    /* ===== Semantic ===== */
+    --success:#2F6B3A;
+    --success-light:#E3EEDD;
+    --warning:#B8860B;
+    --warning-light:#F4E6C5;
+    --danger:#8B1E1E;
+    --danger-light:#F6E3E0;
+    --info:#2C4A7C;
+    --info-light:#E4EAF3;
 
-    /* Radius */
+    /* ===== Parchment neutrals ===== */
+    --parchment:#F4EFE6;
+    --parchment-light:#FBF6EA;
+    --parchment-card:#FFFDF8;
+    --parchment-border:#E8DCC8;
+    --parchment-border-strong:#D9C7AE;
 
+    --ink:#3C2B1F;
+    --ink-soft:#5C4432;
+    --ink-faint:#7B6A58;
+
+    --gray-100:#FBF6EA;
+    --gray-200:#E8DCC8;
+    --gray-300:#D9C7AE;
+    --gray-500:#8B7A67;
+    --gray-700:#5C4432;
+    --gray-900:#3C2B1F;
+
+    --white:#FFFDF8;
+
+    /* ===== Wood (sidebar) ===== */
+    --wood-dark:#2E1F14;
+    --wood:#3E2A1B;
+    --wood-light:#4A3525;
+
+    /* ===== Radius ===== */
     --radius-sm:6px;
-    --radius-md:10px;
-    --radius-lg:16px;
+    --radius-md:12px;
+    --radius-lg:18px;
 
-    /* Shadow */
+    /* ===== Shadow ===== */
+    --shadow-sm:0 2px 8px rgba(40,20,0,.10);
+    --shadow-md:0 10px 25px rgba(40,20,0,.15);
+    --shadow-gold:0 0 0 3px rgba(211,166,37,.25);
 
-    --shadow-sm:0 2px 8px rgba(0,0,0,.08);
-    --shadow-md:0 8px 24px rgba(0,0,0,.12);
-
-    /* Transition */
-
+    /* ===== Transition ===== */
     --transition:.2s ease;
 
 }

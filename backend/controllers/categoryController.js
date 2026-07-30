@@ -112,4 +112,34 @@ const CategoryController = {
 
 };
 
+export async function deleteCategory(req, res) {
+
+    try {
+
+        await Category.delete(req.params.id);
+
+        res.json({
+            message: "Kategori berhasil dihapus"
+        });
+
+    } catch (error) {
+
+        if (error.code === "ER_ROW_IS_REFERENCED_2") {
+
+            return res.status(400).json({
+                message: "Kategori tidak dapat dihapus karena masih digunakan oleh produk."
+            });
+
+        }
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+
+    }
+
+}
+
 export default CategoryController;

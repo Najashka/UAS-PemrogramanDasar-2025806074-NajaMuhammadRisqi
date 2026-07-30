@@ -1,0 +1,76 @@
+.card{
+
+    background:#FFFDF8;
+
+    border-radius:10px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+.page-header{
+
+    margin-bottom:20px;
+
+}
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table th,
+.table td{
+
+    padding:15px;
+
+    border-bottom:1px solid #EFE4D3;
+
+    text-align:left;
+
+}
+
+.table th{
+
+    background:#FBF6EA;
+
+}
+.btn-edit{
+
+    background:#B8860B;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    margin-right:8px;
+
+}
+
+.btn-delete{
+
+    background:#8B1E1E;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}

@@ -54,11 +54,11 @@ form.addEventListener("submit", async (e) => {
 
         if (result.user.role === "admin") {
 
-            location.href = "dashboard.html";
+            location.href = "dashboard/dashboard.html";
 
         } else {
 
-            location.href = "sale.html";
+            location.href = "sale/sale.html";
 
         }
 

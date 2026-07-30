@@ -9,7 +9,7 @@ export function showLoading() {
     loadingElement.className = "loading";
 
     loadingElement.innerHTML = `
-        <div class="spinner"></div>
+        <div class="loader"></div>
     `;
 
     document.body.appendChild(loadingElement);

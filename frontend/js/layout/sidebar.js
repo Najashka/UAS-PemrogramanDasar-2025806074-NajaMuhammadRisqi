@@ -11,55 +11,55 @@ export function createSidebar() {
         {
             title: "Dashboard",
             icon: "fa-solid fa-house",
-            link: "dashboard.html"
+            link: "../dashboard/dashboard.html"
         },
 
         {
             title: "Category",
             icon: "fa-solid fa-layer-group",
-            link: "category.html"
+            link: "../category/category.html"
         },
 
         {
             title: "Supplier",
             icon: "fa-solid fa-truck",
-            link: "supplier.html"
+            link: "../supplier/supplier.html"
         },
 
         {
             title: "Customer",
             icon: "fa-solid fa-users",
-            link: "customer.html"
+            link: "../customer/customer.html"
         },
 
         {
             title: "Product",
             icon: "fa-solid fa-box",
-            link: "product.html"
+            link: "../product/product.html"
         },
 
         {
             title: "Sales",
             icon: "fa-solid fa-cart-shopping",
-            link: "sale.html"
+            link: "../sale/sale.html"
         },
 
         {
             title: "Sales History",
             icon: "fa-solid fa-clock-rotate-left",
-            link: "sale-history.html"
+            link: "../salehistory/sale-history.html"
         },
 
         {
             title: "Report",
             icon: "fa-solid fa-chart-column",
-            link: "report.html"
+            link: "../report/report.html"
         },
 
         {
             title: "Users",
             icon: "fa-solid fa-user-gear",
-            link: "#"
+            link: "../user/user.html"
         }
 
     ];
@@ -69,7 +69,7 @@ export function createSidebar() {
         {
             title: "Sales",
             icon: "fa-solid fa-cart-shopping",
-            link: "sale.html"
+            link: "../sale/sale.html"
         }
 
     ];
@@ -84,7 +84,7 @@ export function createSidebar() {
 
         <div class="logo">
 
-            <i class="fa-solid fa-store"></i>
+            <i class="fa-solid fa-hat-wizard"></i>
 
             <span>Sales Inventory</span>
 
@@ -106,10 +106,10 @@ export function createSidebar() {
 
                     <a
                         href="${menu.link}"
-                        class="${currentPage === menu.link ? "active" : ""}"
+                        class="${currentPage === menu.link.split("/").pop() ? "active" : ""}"
                     >
                         <i class="${menu.icon}"></i>
-                        ${menu.title}
+                        <span>${menu.title}</span>
                     </a>
 
                 </li>

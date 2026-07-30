@@ -9,6 +9,8 @@
 
 <style>
 
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap");
+
 body{
 
     margin:0;
@@ -21,9 +23,9 @@ body{
 
     align-items:center;
 
-    font-family:Arial;
+    font-family:Georgia, serif;
 
-    background:#f5f5f5;
+    background:linear-gradient(180deg,#0b1220 0%,#1c2740 45%,#2e1f14 100%);
 
 }
 
@@ -35,13 +37,13 @@ body{
 
 .spinner{
 
-    width:45px;
+    width:48px;
 
-    height:45px;
+    height:48px;
 
-    border:5px solid #ddd;
+    border:5px solid rgba(211,166,37,.25);
 
-    border-top:5px solid #2ecc71;
+    border-top:5px solid #D3A625;
 
     border-radius:50%;
 
@@ -62,7 +64,11 @@ p{
 
 margin-top:20px;
 
-color:#666;
+color:#F0C75E;
+
+font-family:"Cinzel", Georgia, serif;
+
+letter-spacing:1px;
 
 }
 
@@ -93,11 +99,11 @@ if(!token || !user){
 
     if(user.role==="admin"){
 
-        location.href="pages/dashboard.html";
+        location.href="pages/dashboard/dashboard.html";
 
     }else if(user.role==="cashier"){
 
-        location.href="pages/sale.html";
+        location.href="pages/sale/sale.html";
 
     }else{
 

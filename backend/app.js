@@ -13,6 +13,7 @@ import saleRoutes from "./routes/saleRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/sales", saleRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/report",reportRoutes);
+app.use("/api/users", userRoutes);
 
 // ===============================
 // Entry Point Aplikasi
