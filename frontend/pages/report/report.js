@@ -92,6 +92,11 @@ renderLayout("Report", `
 
         <div class="report-action">
 
+            <input
+                id="searchReport"
+                class="search-input"
+                placeholder="Cari Customer">
+
             <button id="printReport">
 
                 <i class="fa-solid fa-print"></i>
@@ -132,10 +137,6 @@ renderLayout("Report", `
             </tbody>
 
         </table>
-
-        <input
-            id="searchReport"
-            placeholder="Cari Customer">
 
     </div>
 

@@ -279,9 +279,38 @@ function renderChart(weeklySales = []) {
 
     }
 
-    const labels = weeklySales.map(item =>
+    // ===============================
+    // BUILD 7 CALENDAR DAYS
+    // (backend cuma ngirim baris utk hari yg ada
+    // transaksinya; hari kosong perlu diisi 0 di sini
+    // biar chart tetap nunjukkin 7 hari penuh)
+    // ===============================
 
-        new Date(item.date).toLocaleDateString(
+    const days = [];
+
+    for (let i = 6; i >= 0; i--) {
+
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+
+        days.push(date.toISOString().split("T")[0]);
+
+    }
+
+    const salesByDate = {};
+
+    weeklySales.forEach(item => {
+
+        const dateKey =
+            new Date(item.date).toISOString().split("T")[0];
+
+        salesByDate[dateKey] = Number(item.total);
+
+    });
+
+    const labels = days.map(dateStr =>
+
+        new Date(dateStr).toLocaleDateString(
 
             "id-ID",
 
@@ -297,9 +326,9 @@ function renderChart(weeklySales = []) {
 
     );
 
-    const totals = weeklySales.map(item =>
+    const totals = days.map(dateStr =>
 
-        Number(item.total)
+        salesByDate[dateStr] ?? 0
 
     );
 
@@ -338,6 +367,16 @@ function renderChart(weeklySales = []) {
             options: {
 
                 responsive: true,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true
+
+                    }
+
+                },
 
                 plugins: {
 
