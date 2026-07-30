@@ -319,6 +319,63 @@ label{
 }
 
 /* ===========================
+   TABLE
+=========================== */
+
+.table{
+
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+
+}
+
+.table th,
+.table td{
+
+    padding:16px 18px;
+    text-align:left;
+    vertical-align:middle;
+    border-bottom:1px solid var(--parchment-border);
+
+}
+
+.table th{
+
+    background:var(--parchment-light);
+    color:var(--ink-soft);
+    font-family:var(--font-heading);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    white-space:nowrap;
+
+}
+
+.table th:first-child,
+.table td:first-child{
+    padding-left:22px;
+}
+
+.table th:last-child,
+.table td:last-child{
+    padding-right:22px;
+}
+
+.table tbody tr:hover{
+    background:rgba(211,166,37,.06);
+}
+
+.table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+.text-center{
+    text-align:center;
+}
+
+/* ===========================
    RESPONSIVE
 =========================== */
 
