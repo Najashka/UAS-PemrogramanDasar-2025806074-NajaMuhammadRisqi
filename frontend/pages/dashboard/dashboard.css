@@ -41,34 +41,6 @@
 
 }
 
-.dashboard-card{
-
-    background:#FFFDF8CF7;
-
-    border:1px solid #E8DCC8;
-
-    border-radius:20px;
-
-    padding:22px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
-    box-shadow:0 10px 25px rgba(70,45,25,.08);
-
-    transition:.25s ease;
-
-    position:relative;
-
-    overflow:hidden;
-
-    animation:fadeUp .5s ease;
-
-}
-
 @keyframes fadeUp{
 
 from{
@@ -188,19 +160,7 @@ translateY(0);
 
 }
 
-.chart-card{
 
-    background:#FFFDF8CF7;
-
-    border:1px solid #E8DCC8;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    box-shadow:0 10px 25px rgba(70,45,25,.08);
-
-}
 
 .chart-card h3{
 
@@ -208,21 +168,7 @@ translateY(0);
 
 }
 
-.best-product-card{
 
-    margin-top:25px;
-
-    background:#FFFDF8CF7;
-
-    border:1px solid #E8DCC8;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    box-shadow:0 10px 25px rgba(70,45,25,.08);
-
-}
 
 .best-product-card h3{
 
@@ -282,19 +228,7 @@ translateY(0);
 
 }
 
-.recent-sales-card{
 
-    background:#FFFDF8CF7;
-
-    border:1px solid #E8DCC8;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    box-shadow:0 10px 25px rgba(70,45,25,.08);
-
-}
 
 .recent-item{
 
